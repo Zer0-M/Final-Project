@@ -12,6 +12,7 @@ public class Tetris extends JFrame{
     this.setTitle("Tetris");
     this.setSize(1000,700);
     this.setLocation(100,100);
+    this.setBackground(Color.WHITE);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     pane = this.getContentPane();
@@ -20,7 +21,6 @@ public class Tetris extends JFrame{
     sidebar=new JPanel();
     score.setFont(new Font("Serif",Font.PLAIN,30));
     matrix=new Board();
-    matrix.setBackground(Color.RED);
     pane.add(matrix);
     pane.add(sidebar);
     sidebar.add(score);
