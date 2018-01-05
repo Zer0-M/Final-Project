@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 public class Tetris extends JFrame{
   private Container pane;
-  private JTextField score;
+  private JLabel  score;
   // private Board  matrix;
   private JPanel sidebar;
   public Tetris(){
@@ -14,9 +14,9 @@ public class Tetris extends JFrame{
 
     pane = this.getContentPane();
     pane.setLayout(new GridLayout());
-    score=new JTextField("0",20);
-    score.setEditable(false);
+    score=new JLabel("0");
     sidebar=new JPanel();
+    score.setFont(new Font("Serif",Font.PLAIN,30));
     // matrix=new Board(500,700);
     //pane.add(matrix);
     pane.add(sidebar);
