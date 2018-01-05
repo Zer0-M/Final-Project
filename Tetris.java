@@ -1,10 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Graphics;
+import java.awt.Color;
 public class Tetris extends JFrame{
   private Container pane;
   private JLabel  score;
-  // private Board  matrix;
+  private Board  matrix;
   private JPanel sidebar;
   public Tetris(){
     this.setTitle("Tetris");
@@ -17,12 +19,11 @@ public class Tetris extends JFrame{
     score=new JLabel("0");
     sidebar=new JPanel();
     score.setFont(new Font("Serif",Font.PLAIN,30));
-    // matrix=new Board(500,700);
-    //pane.add(matrix);
+    matrix=new Board();
+    matrix.setBackground(Color.RED);
+    pane.add(matrix);
     pane.add(sidebar);
     sidebar.add(score);
-
-
   }
   public String getScore(){
     return score.getText();
