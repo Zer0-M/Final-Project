@@ -5,6 +5,7 @@ public class Tetris extends JFrame{
   private Container pane;
   private JTextField score;
   // private Board matrix;
+  private JPanel sidebar;
   public Tetris(){
     this.setTitle("Tetris");
     this.setSize(1000,700);
@@ -13,6 +14,9 @@ public class Tetris extends JFrame{
 
     pane = this.getContentPane();
     pane.setLayout(new FlowLayout());
+    score=new JTextField("0");
+    sidebar=new JPanel();
+
   }
   public String getScore(){
     return score.getText();
