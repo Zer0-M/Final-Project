@@ -4,7 +4,7 @@ import java.awt.event.*;
 public class Tetris extends JFrame{
   private Container pane;
   private JTextField score;
-  // private Board matrix;
+  // private Board  matrix;
   private JPanel sidebar;
   public Tetris(){
     this.setTitle("Tetris");
@@ -13,9 +13,14 @@ public class Tetris extends JFrame{
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     pane = this.getContentPane();
-    pane.setLayout(new FlowLayout());
-    score=new JTextField("0");
+    pane.setLayout(new GridLayout());
+    score=new JTextField("0",20);
     sidebar=new JPanel();
+    // matrix=new Board(500,700);
+    //pane.add(matrix);
+    pane.add(sidebar);
+    sidebar.add(score);
+
 
   }
   public String getScore(){
