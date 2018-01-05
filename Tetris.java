@@ -15,6 +15,7 @@ public class Tetris extends JFrame{
     pane = this.getContentPane();
     pane.setLayout(new GridLayout());
     score=new JTextField("0",20);
+    score.setEditable(false);
     sidebar=new JPanel();
     // matrix=new Board(500,700);
     //pane.add(matrix);
