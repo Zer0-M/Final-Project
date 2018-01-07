@@ -6,7 +6,6 @@ import java.awt.Color;
 public class Board extends JPanel{
 	public Board() {
 		setBackground(Color.WHITE);
-    setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	}
   public void paint(Graphics g){
     super.paintComponent(g);
