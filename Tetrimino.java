@@ -33,6 +33,9 @@ public class Tetrimino{
     public int getCoor(int shape, int x, int y){
 	return shapes[shape][x][y];
     }
+    public int getLen(int shape){
+	return shapes[shape][1].length;
+    }
     public static void main(String[]args){
 	Tetrimino t = new Tetrimino();
     }
