@@ -22,16 +22,12 @@ public class Board extends JPanel{
 			g.fillRect(row,col,20,20);
 			g.setColor(Color.BLACK);
 		    }
-		    row += 20;
+		    col += 20;
 		}
-		col += 20;
-		row = 0;
+		row += 20;
+		col = 0;
 	    }
-	    col += 10;
+	    row += 10;
 	}
-	//g.drawRect(0,0,20,20);
-	//g.drawRect(-1,-1,20,20);
-	//g.setColor(Color.RED);
-	//g.fillRect(0,0,20,20);
     }
 }
