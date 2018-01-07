@@ -13,12 +13,12 @@ public class Board extends JPanel{
 	int row = 0;
 	int col = 0;
 	for(int x=0; x<7; x++){
-	    for(int i=0; i<2; i++){
+	    for(int i=1; i<3; i++){
 		for(int j=0; j<t.getLen(x); j++){
 		    if(t.getCoor(x,i,j) == 1){
 			g.drawRect(row,col,20,20);
 			g.drawRect(row-1,col-1,20,20);
-			g.setColor(Color.RED);
+			g.setColor(t.getCol(x));
 			g.fillRect(row,col,20,20);
 			g.setColor(Color.BLACK);
 		    }
