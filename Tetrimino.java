@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 public class Tetrimino{
     private int[][][] shapes;
+    int[][] coords;
     private Color[] colors;
     private ArrayList<Integer> shapeGen;
     private Integer[] newGen;
     public Tetrimino(){
 	colors = new Color[] {Color.CYAN,Color.YELLOW,Color.MAGENTA,Color.GREEN,Color.RED,Color.BLUE,Color.ORANGE};
+	
 	shapes = new int[][][] {
 	    {{0},
 	     {1,1,1,1},
@@ -45,7 +47,7 @@ public class Tetrimino{
 	newGen = new Integer[] {0,0,1,1,2,2,3,3,4,4,5,5,6,6};
 	shapeGen = new ArrayList<Integer> ();
     }
-    public int getCoor(int shape, int x, int y){
+    public int getShape(int shape, int x, int y){
 	return shapes[shape][x][y];
     }
     public int getLen(int shape){
