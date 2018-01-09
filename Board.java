@@ -12,12 +12,11 @@ public class Board extends JPanel{
 	Tetrimino t = new Tetrimino();
 	int row = 160;
 	int col = 0;
-	int shape = 0;
 	for(int x=0; x<20; x++){
-	    shape=t.randGen();
-	    for(int i=1; i<3; i++){
-		for(int j=0; j<t.getLen(shape); j++){
-		    if(t.getShape(shape,i,j) == 1){
+	    int[][][] shape = t.randGen();
+	    for(int i=0; i<t.getLen(shape, 1); i++){
+		for(int j=0; j<t.getWid(shape, 1); j++){
+		    if(t.getSquare(shape,1,i,j) == 1){
 			g.drawRect(row,col,40,40);
 			g.drawRect(row-1,col-1,40,40);
 			g.setColor(t.getCol(shape));
