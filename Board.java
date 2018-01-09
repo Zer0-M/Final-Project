@@ -3,9 +3,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.Graphics;
 import java.awt.Color;
-public class Board extends JPanel{
+public class Board extends JPanel implements KeyListener{
+  public Timer timer;
     public Board() {
 	setBackground(Color.WHITE);
+  timer=new Timer();
     }
     public void paint(Graphics g){
 	super.paintComponent(g);
@@ -30,4 +32,26 @@ public class Board extends JPanel{
 	    }
 	}
     }
+  private boolean movePiece(){
+    return false;
+  }
+  private boolean stopPiece(){
+    return false;
+  }
+  private boolean pieceOutside(){
+    return false;
+  }
+  private boolean isFilled(){
+    return false;
+  }
+  public void clearRow(int row){
+
+  }
+  public void start(){
+
+  }
+  public void end(){
+
+  }
+
 }
