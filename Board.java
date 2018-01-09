@@ -4,10 +4,10 @@ import java.awt.event.*;
 import java.awt.Graphics;
 import java.awt.Color;
 public class Board extends JPanel implements KeyListener{
-  public Timer timer;
+    public Timer timer;
     public Board() {
 	setBackground(Color.WHITE);
-  timer=new Timer();
+        timer=new Timer();
     }
     public void paint(Graphics g){
 	super.paintComponent(g);

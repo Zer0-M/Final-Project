@@ -161,20 +161,18 @@ public class Tetrimino{
 	}
 	return shapes[shapeGen.remove((int)(Math.random()*shapeGen.size()))];
     }
-  public int getYCor(){
-    return 0;
-  }
-  public int getXCor(){
-    return 0;
-  }
-  public void setXCor(){
+    public int getYCor(){
+	return 0;
+    }
+    public int getXCor(){
+	return 0;
+    }
+    public void setXCor(){
     
-  }
-  public void setYCor(){
+    }
+    public void setYCor(){
     
-  }
-  
-    
+    }    
     public static void main(String[]args){
 	Tetrimino t = new Tetrimino();
     }
