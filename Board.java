@@ -10,21 +10,27 @@ public class Board extends JPanel implements ActionListener{
     public Timer timer;
     private int xcor;
     private int ycor;
-    public boolean moving;
-    public int[][][] curShape;
+    private int orientation;
+    private boolean moving;
+    private int[][][] curShape;
+    private int[][] coordTable;
+    private Tetrimino t;
     public Board() {
+	t = new Tetrimino();
 	setBackground(Color.WHITE);
-        timer=new Timer(500, this);
+	coordTable = new int[10][20];
+	timer=new Timer(500, this);
 	timer.start();
-	xcor = 160;
+	xcor = 4;
 	ycor = 0;
+	orientation = 1;
 	moving = false;
     }	
     public void paint(Graphics g){
 	super.paintComponent(g);
-	Tetrimino t = new Tetrimino();
-	int row = xcor;
-	int col = ycor;
+	int row = xcor*40;
+	int col = ycor*40;
+	int ori = orientation;
 	int[][][] shape;
 	if(!moving){
 	    shape = t.randGen();
@@ -33,8 +39,8 @@ public class Board extends JPanel implements ActionListener{
 	}else{
 	    shape = curShape;
 	}
-	for(int i=0; i<t.getLen(shape, 1); i++){
-	    for(int j=0; j<t.getWid(shape, 1); j++){
+	for(int i=0; i<t.getLen(shape, ori); i++){
+	    for(int j=0; j<t.getWid(shape, ori); j++){
 		if(t.getSquare(shape,1,i,j) == 1){
 		    g.drawRect(row,col,40,40);
 		    g.drawRect(row-1,col-1,40,40);
@@ -47,14 +53,22 @@ public class Board extends JPanel implements ActionListener{
 	    col += 40;
 	    row = 160;
 	}
-	ycor += 40;
+	ycor++;
     }
     public void actionPerformed(ActionEvent e){
-	ycor += 40;
+	if(!moving){
+	    xcor = 4;
+	    ycor = 0;
+	    orientation = 1;
+	    moving = false;
+	}
 	repaint();
     }
     private boolean movePiece(){
-	return false;
+	if(t.getLen(curShape, orientation) + ycor > 20){
+	    return false;
+	}
+	return true;
     }
     private boolean stopPiece(){
 	return false;

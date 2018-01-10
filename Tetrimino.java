@@ -19,9 +19,6 @@ public class Tetrimino{
     public Tetrimino(){
 	I = new int[][][] {
 	    {
-		{Color.CYAN.getRGB()}
-	    },
-	    {
 		{1,1,1,1}
 	    },
 	    {
@@ -32,24 +29,24 @@ public class Tetrimino{
 	    },
 	    {
 		{1}
+	    },
+	    {
+		{Color.CYAN.getRGB()}
 	    }
 	};
 	O = new int[][][]{
-	    {
-		{Color.YELLOW.getRGB()}
-	    },
 	    {
 		{1,1},
 		{1,1}
 	    },
 	    {
 		{2}
+	    },
+	    {
+		{Color.YELLOW.getRGB()}
 	    }
 	};
 	T = new int[][][]{
-	    {
-		{Color.MAGENTA.getRGB()}
-	    },	
 	    {
 		{0,1,0},
 		{1,1,1}
@@ -70,6 +67,9 @@ public class Tetrimino{
 	    },
 	    {
 		{3}
+	    },
+	    {
+		{Color.MAGENTA.getRGB()}
 	    }
 	};
 	S = new int[][][] {
@@ -91,9 +91,6 @@ public class Tetrimino{
 	};
 	Z = new int[][][] {
 	    {
-		{Color.RED.getRGB()}
-	    },
-	    {
 		{1,1,0},
 		{0,1,1}
 	    },
@@ -104,12 +101,12 @@ public class Tetrimino{
 	    },
 	    {
 		{5}
+	    },
+	    {
+		{Color.RED.getRGB()}
 	    }
 	};
 	J = new int[][][] {
-	    {
-		{Color.BLUE.getRGB()}
-	    },
 	    {
 		{1,0,0},
 		{1,1,1}
@@ -130,12 +127,12 @@ public class Tetrimino{
 	    },
 	    {
 		{6}
+	    },
+	    {
+		{Color.BLUE.getRGB()}
 	    }
 	};
 	L = new int[][][] {
-	    {
-		{Color.ORANGE.getRGB()}
-	    },
 	    {
 		{0,0,1},
 		{1,1,1}
@@ -156,6 +153,9 @@ public class Tetrimino{
 	    },
 	    {
 		{7}
+	    },
+	    {
+		{Color.ORANGE.getRGB()}
 	    }
 	};
 	shapes = new int[][][][] {I,O,T,S,Z,J,L};
@@ -172,7 +172,7 @@ public class Tetrimino{
 	return shape[orientation].length;
     }
     public Color getCol(int[][][] shape){
-	return new Color(shape[0][0][0]);
+	return new Color(shape[shape.length-1][0][0]);
     }
     public int[][][] randGen(){
 	if(shapeGen.size() == 0){
