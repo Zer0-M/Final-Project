@@ -14,7 +14,6 @@ public class Tetrimino{
     private int[][][] Z;
     private int[][][] J;
     private int[][][] L;
-    private int[][] coords;
     private ArrayList<Integer> shapeGen;
     private Integer[] newGen;
     public Tetrimino(){
@@ -30,6 +29,9 @@ public class Tetrimino{
 		{1},
 		{1},
 		{1}
+	    },
+	    {
+		{1}
 	    }
 	};
 	O = new int[][][]{
@@ -37,8 +39,11 @@ public class Tetrimino{
 		{Color.YELLOW.getRGB()}
 	    },
 	    {
-		{0,1,1,0},
-		{0,1,1,0}
+		{1,1},
+		{1,1}
+	    },
+	    {
+		{2}
 	    }
 	};
 	T = new int[][][]{
@@ -62,6 +67,9 @@ public class Tetrimino{
 		{0,1},
 		{1,1},
 		{0,1},
+	    },
+	    {
+		{3}
 	    }
 	};
 	S = new int[][][] {
@@ -77,6 +85,9 @@ public class Tetrimino{
 		{1,1},
 		{0,1}
 	    },
+	    {
+		{4}
+	    }
 	};
 	Z = new int[][][] {
 	    {
@@ -90,6 +101,9 @@ public class Tetrimino{
 		{0,1},
 		{1,1},
 		{1,0}
+	    },
+	    {
+		{5}
 	    }
 	};
 	J = new int[][][] {
@@ -113,6 +127,9 @@ public class Tetrimino{
 		{0,1},
 		{0,1},
 		{1,1}
+	    },
+	    {
+		{6}
 	    }
 	};
 	L = new int[][][] {
@@ -136,12 +153,14 @@ public class Tetrimino{
 		{1,1},
 		{0,1},
 		{0,1}
+	    },
+	    {
+		{7}
 	    }
 	};
 	shapes = new int[][][][] {I,O,T,S,Z,J,L};
 	newGen = new Integer[] {0,0,1,1,2,2,3,3,4,4,5,5,6,6};
 	shapeGen = new ArrayList<Integer> ();
-	coords = new int[10][20];
     }
     public int getSquare(int[][][] shape,int orientation, int x,int y){
 	return shape[orientation][x][y];
