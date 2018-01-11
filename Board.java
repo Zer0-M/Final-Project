@@ -6,9 +6,10 @@ import java.awt.Color;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
-public class Board extends JPanel implements ActionListener,KeyListener{
-    public Random r;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Arrays;
+public class Board extends JPanel implements ActionListener, KeyListener{
     public Timer timer;
     private int xcor;
     private int ycor;
@@ -18,30 +19,19 @@ public class Board extends JPanel implements ActionListener,KeyListener{
     private int[][] coordTable;
     private Tetrimino t;
     public Board() {
-     this. setFocusable(true);
-     this.requestFocus();
-      r=new Random();
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
-  setSize(400,800);
 	coordTable = new int[20][10];
 	timer=new Timer(200, this);
 	timer.start();
-	xcor = r.nextInt(6);
+	xcor = 4;
 	ycor = 0;
 	orientation = 0;
 	moving = false;
+	addKeyListener(this);
+	setFocusable(true);
+	setFocusTraversalKeysEnabled(false);
     }
-  public void keyPressed(KeyEvent e) {
-
-  }
-  public void keyReleased(KeyEvent e){
-
-
-  }
-  public void keyTyped(KeyEvent e){
-
-  }
     public void paint(Graphics g){
 	super.paintComponent(g);
 	int row = xcor*40;
@@ -86,8 +76,8 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 	   if(!tryMovePiece()){
 		moving = false;
 	   }
-
-  if(!moving){
+	}
+	if(!moving && curShape != null){
 	    int ori = orientation;
 	    int tempx = xcor;
 	    for(int i=0; i<t.getLen(curShape, ori); i++){
@@ -100,29 +90,43 @@ public class Board extends JPanel implements ActionListener,KeyListener{
 		ycor++;
 		xcor = tempx;
 	    }
-	    xcor = r.nextInt(6);
+	    xcor = 4;
 	    ycor = 0;
 	    orientation = 0;
 	}
-  }
 	repaint();
     }
     private boolean tryMovePiece(){
-	if(t.getLen(curShape, orientation) + ycor > 20){
+	if(t.getLen(curShape, orientation) + ycor > 20 || t.getWid(curShape, orientation) + xcor > 10){
 	    return false;
 	}
 	return true;
     }
-  public void pause(){
-    timer.stop();
-  }
-  public void play(){
-    timer.start();
-  }
-    private boolean stopPiece(){
-	return false;
+    public void keyReleased(KeyEvent e){
+	if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+	    rotateR();
+	}
+	if(e.getKeyCode() == KeyEvent.VK_LEFT){
+	    rotateR();
+	}
     }
-    private boolean pieceOutside(){
+    public void keyTyped(KeyEvent e){
+    }
+    public void keyPressed(KeyEvent e){
+    }
+    private void rotateR(){
+	int len = t.getWid(curShape, (orientation+1) % t.getOris(curShape));
+	if(len + xcor < 10 && xcor - len >= 0){
+	    orientation = (orientation+1) % t.getOris(curShape);
+	}
+    }
+    private void rotateL(){
+	int len = t.getWid(curShape, ((orientation+t.getOris(curShape)-1) % t.getOris(curShape)));
+	if(len + xcor < 10 && xcor - len >= 0){
+	    orientation = (orientation+t.getOris(curShape)-1) % t.getOris(curShape);
+	}
+    }
+    private boolean stopPiece(){
 	return false;
     }
     private boolean isFilled(){
