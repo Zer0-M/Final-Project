@@ -73,7 +73,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
     public void actionPerformed(ActionEvent e){
 	if(curShape != null){
-	   if(!tryMovePiece()){
+	   if(!tryMoveDown()){
 		moving = false;
 	   }
 	}
@@ -96,18 +96,24 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
 	repaint();
     }
-    private boolean tryMovePiece(){
+    private boolean tryMoveDown(){
 	if(t.getLen(curShape, orientation) + ycor > 20 || t.getWid(curShape, orientation) + xcor > 10){
 	    return false;
 	}
 	return true;
     }
     public void keyReleased(KeyEvent e){
-	if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+	if(e.getKeyCode() == KeyEvent.VK_UP){
 	    rotateR();
 	}
-	if(e.getKeyCode() == KeyEvent.VK_LEFT){
+	if(e.getKeyCode() == KeyEvent.VK_DOWN){
 	    rotateR();
+	}
+	if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+	    moveR();
+	}
+	if(e.getKeyCode() == KeyEvent.VK_LEFT){
+	    moveL();
 	}
     }
     public void keyTyped(KeyEvent e){
@@ -124,6 +130,16 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	int len = t.getWid(curShape, ((orientation+t.getOris(curShape)-1) % t.getOris(curShape)));
 	if(len + xcor < 10 && xcor - len >= 0){
 	    orientation = (orientation+t.getOris(curShape)-1) % t.getOris(curShape);
+	}
+    }
+    private void moveR(){
+	if(t.getWid(curShape, orientation) + xcor < 10){
+	    xcor++;
+	}
+    }
+    private void moveL(){
+	if(xcor - t.getWid(curShape, orientation) >= -(t.getWid(curShape, orientation))+1){
+	    xcor--;
 	}
     }
     private boolean stopPiece(){
