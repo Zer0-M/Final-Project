@@ -7,7 +7,7 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
-public class Board extends JPanel implements ActionListener{
+public class Board extends JPanel implements ActionListener,KeyListener{
     public Random r;
     public Timer timer;
     private int xcor;
@@ -18,6 +18,8 @@ public class Board extends JPanel implements ActionListener{
     private int[][] coordTable;
     private Tetrimino t;
     public Board() {
+     this. setFocusable(true);
+     this.requestFocus();
       r=new Random();
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
@@ -30,6 +32,16 @@ public class Board extends JPanel implements ActionListener{
 	orientation = 0;
 	moving = false;
     }
+  public void keyPressed(KeyEvent e) {
+
+  }
+  public void keyReleased(KeyEvent e){
+
+
+  }
+  public void keyTyped(KeyEvent e){
+
+  }
     public void paint(Graphics g){
 	super.paintComponent(g);
 	int row = xcor*40;
@@ -101,6 +113,12 @@ public class Board extends JPanel implements ActionListener{
 	}
 	return true;
     }
+  public void pause(){
+    timer.stop();
+  }
+  public void play(){
+    timer.start();
+  }
     private boolean stopPiece(){
 	return false;
     }
