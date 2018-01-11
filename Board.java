@@ -19,7 +19,7 @@ public class Board extends JPanel implements ActionListener{
     public Board() {
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
-	coordTable = new int[10][20];
+	coordTable = new int[20][10];
 	timer=new Timer(200, this);
 	timer.start();
 	xcor = 4;
@@ -62,11 +62,22 @@ public class Board extends JPanel implements ActionListener{
 		moving = false;
 	   }
 	}
-	if(!moving){
+	if(!moving && curShape != null){
+	    int ori = orientation;
+	    int tempx = xcor;
+	    for(int i=0; i<t.getLen(curShape, ori); i++){
+		for(int j=0; j<t.getWid(curShape, ori); j++){
+		    if(t.getSquare(curShape,ori,i,j) == 1){
+			coordTable[ycor-1][xcor-1] = t.getNum(curShape);
+		    }
+		    xcor++;
+		}
+		ycor++;
+		xcor = tempx;
+	    }
 	    xcor = 4;
 	    ycor = 0;
 	    orientation = 0;
-	    moving = false;
 	}
 	repaint();
     }
