@@ -6,8 +6,9 @@ import java.awt.Color;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-public class Board extends JPanel implements ActionListener{
+import java.util.*;
+public class Board extends JPanel implements ActionListener,KeyListener{
+    public Random r;
     public Timer timer;
     private int xcor;
     private int ycor;
@@ -17,16 +18,30 @@ public class Board extends JPanel implements ActionListener{
     private int[][] coordTable;
     private Tetrimino t;
     public Board() {
+     this. setFocusable(true);
+     this.requestFocus();
+      r=new Random();
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
+  setSize(400,800);
 	coordTable = new int[20][10];
 	timer=new Timer(200, this);
 	timer.start();
-	xcor = 4;
+	xcor = r.nextInt(6);
 	ycor = 0;
 	orientation = 0;
 	moving = false;
     }
+  public void keyPressed(KeyEvent e) {
+
+  }
+  public void keyReleased(KeyEvent e){
+
+
+  }
+  public void keyTyped(KeyEvent e){
+
+  }
     public void paint(Graphics g){
 	super.paintComponent(g);
 	int row = xcor*40;
@@ -71,8 +86,8 @@ public class Board extends JPanel implements ActionListener{
 	   if(!tryMovePiece()){
 		moving = false;
 	   }
-	}
-	if(!moving && curShape != null){
+
+  if(!moving){
 	    int ori = orientation;
 	    int tempx = xcor;
 	    for(int i=0; i<t.getLen(curShape, ori); i++){
@@ -85,10 +100,11 @@ public class Board extends JPanel implements ActionListener{
 		ycor++;
 		xcor = tempx;
 	    }
-	    xcor = 4;
+	    xcor = r.nextInt(6);
 	    ycor = 0;
 	    orientation = 0;
 	}
+  }
 	repaint();
     }
     private boolean tryMovePiece(){
@@ -97,6 +113,12 @@ public class Board extends JPanel implements ActionListener{
 	}
 	return true;
     }
+  public void pause(){
+    timer.stop();
+  }
+  public void play(){
+    timer.start();
+  }
     private boolean stopPiece(){
 	return false;
     }
