@@ -10,7 +10,7 @@ public class Tetris extends JFrame{
   private JPanel sidebar;
   public Tetris(){
     this.setTitle("Tetris");
-    this.setSize(825,1000);
+    this.setSize(800,800);
     this.setLocation(100,100);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 

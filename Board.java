@@ -6,8 +6,9 @@ import java.awt.Color;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
+import java.util.*;
 public class Board extends JPanel implements ActionListener{
+    public Random r;
     public Timer timer;
     private int xcor;
     private int ycor;
@@ -17,12 +18,14 @@ public class Board extends JPanel implements ActionListener{
     private int[][] coordTable;
     private Tetrimino t;
     public Board() {
+      r=new Random();
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
+  setSize(400,800);
 	coordTable = new int[20][10];
 	timer=new Timer(200, this);
 	timer.start();
-	xcor = 4;
+	xcor = r.nextInt(6);
 	ycor = 0;
 	orientation = 0;
 	moving = false;
@@ -71,8 +74,8 @@ public class Board extends JPanel implements ActionListener{
 	   if(!tryMovePiece()){
 		moving = false;
 	   }
-	}
-	if(!moving && curShape != null){
+
+  if(!moving){
 	    int ori = orientation;
 	    int tempx = xcor;
 	    for(int i=0; i<t.getLen(curShape, ori); i++){
@@ -85,10 +88,11 @@ public class Board extends JPanel implements ActionListener{
 		ycor++;
 		xcor = tempx;
 	    }
-	    xcor = 4;
+	    xcor = r.nextInt(6);
 	    ycor = 0;
 	    orientation = 0;
 	}
+  }
 	repaint();
     }
     private boolean tryMovePiece(){
