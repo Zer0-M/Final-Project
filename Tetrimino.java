@@ -177,8 +177,11 @@ public class Tetrimino{
     public Color getCol(int shape){
 	return getCol(shapes[shape-1]);
     }
-    public int getNum(int[][][]shape){
+    public int getNum(int[][][] shape){
 	return shape[shape.length-2][0][0];
+    }
+    public int getOris(int[][][] shape, int ori){
+	return shape.length-2;
     }
     public int[][][] randGen(){
 	if(shapeGen.size() == 0){
