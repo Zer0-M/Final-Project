@@ -73,11 +73,12 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
     public void actionPerformed(ActionEvent e){
 	if(curShape != null){
-	   if(!tryMoveDown()){
+	    //System.out.println(stopPiece());
+	    if(!tryMoveDown()){
 		moving = false;
-	   }
+	    }
 	}
-	if(!moving && curShape != null){
+	if(!moving  && curShape != null){
 	    int ori = orientation;
 	    int tempx = xcor;
 	    for(int i=0; i<t.getLen(curShape, ori); i++){
@@ -97,7 +98,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	repaint();
     }
     private boolean tryMoveDown(){
-	if(t.getLen(curShape, orientation) + ycor > 20 || t.getWid(curShape, orientation) + xcor > 10){
+	if(stopPiece() || t.getLen(curShape, orientation) + ycor > 20 || t.getWid(curShape, orientation) + xcor > 10){
 	    return false;
 	}
 	return true;
@@ -143,6 +144,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
     }
     private boolean stopPiece(){
+	int y=ycor+t.getLen(curShape, orientation)-3;
+	int i = 0;
+	for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
+	    int curSquare = t.getSquare(curShape, orientation, t.getLen(curShape, orientation)-1, i);
+	    if((curSquare == 0 && coordTable[y][x] >= 1) || (curSquare == 1 && coordTable[y+1][x] >= 1)){
+		return true;
+	    }
+	    i++;
+	}
 	return false;
     }
     private boolean isFilled(){
@@ -155,6 +165,5 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
     }
     public void end(){
-
     }
 }
