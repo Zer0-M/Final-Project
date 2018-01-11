@@ -43,16 +43,26 @@ public class Board extends JPanel implements ActionListener{
 	for(int i=0; i<t.getLen(shape, ori); i++){
 	    for(int j=0; j<t.getWid(shape, ori); j++){
 		if(t.getSquare(shape,ori,i,j) == 1){
-		    g.drawRect(row,col,40,40);
-		    g.drawRect(row-1,col-1,40,40);
 		    g.setColor(t.getCol(shape));
 		    g.fillRect(row,col,40,40);
 		    g.setColor(Color.BLACK);
+		    g.drawRect(row,col,40,40);
 		}
 		row += 40;
 	    }
 	    col += 40;
-	    row = 160;
+	    row = xcor*40;
+	}
+	for(int y=0; y<20; y++){
+	    for(int x=0; x<10; x++){
+		if(coordTable[y][x] > 0){
+		    g.setColor(t.getCol(coordTable[y][x]));
+		    g.fillRect(x*40,y*40,40,40);
+		    g.setColor(Color.BLACK);
+		    g.drawRect(x*40,y*40,40,40);
+		    g.drawRect((row*40)+1,(col*40)+1,40,40);
+		}
+	    }
 	}
 	ycor++;
     }
@@ -68,7 +78,7 @@ public class Board extends JPanel implements ActionListener{
 	    for(int i=0; i<t.getLen(curShape, ori); i++){
 		for(int j=0; j<t.getWid(curShape, ori); j++){
 		    if(t.getSquare(curShape,ori,i,j) == 1){
-			coordTable[ycor-1][xcor-1] = t.getNum(curShape);
+			coordTable[ycor-1][xcor] = t.getNum(curShape);
 		    }
 		    xcor++;
 		}

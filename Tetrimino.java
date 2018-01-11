@@ -174,6 +174,9 @@ public class Tetrimino{
     public Color getCol(int[][][] shape){
 	return new Color(shape[shape.length-1][0][0]);
     }
+    public Color getCol(int shape){
+	return getCol(shapes[shape-1]);
+    }
     public int getNum(int[][][]shape){
 	return shape[shape.length-2][0][0];
     }
