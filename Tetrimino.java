@@ -74,9 +74,6 @@ public class Tetrimino{
 	};
 	S = new int[][][] {
 	    {
-		{Color.GREEN.getRGB()}
-	    },
-	    {
 		{0,1,1},
 		{1,1,0}
 	    },
@@ -87,7 +84,10 @@ public class Tetrimino{
 	    },
 	    {
 		{4}
-	    }
+	    },
+	    {
+		{Color.GREEN.getRGB()}
+	    }   
 	};
 	Z = new int[][][] {
 	    {

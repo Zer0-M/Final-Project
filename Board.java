@@ -6,6 +6,7 @@ import java.awt.Color;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 public class Board extends JPanel implements ActionListener{
     public Timer timer;
     private int xcor;
@@ -19,13 +20,13 @@ public class Board extends JPanel implements ActionListener{
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
 	coordTable = new int[10][20];
-	timer=new Timer(500, this);
+	timer=new Timer(200, this);
 	timer.start();
 	xcor = 4;
 	ycor = 0;
-	orientation = 1;
+	orientation = 0;
 	moving = false;
-    }	
+    }
     public void paint(Graphics g){
 	super.paintComponent(g);
 	int row = xcor*40;
@@ -34,14 +35,14 @@ public class Board extends JPanel implements ActionListener{
 	int[][][] shape;
 	if(!moving){
 	    shape = t.randGen();
-	    curShape = shape;
+	    this.curShape = shape;
 	    moving = true;
 	}else{
 	    shape = curShape;
 	}
 	for(int i=0; i<t.getLen(shape, ori); i++){
 	    for(int j=0; j<t.getWid(shape, ori); j++){
-		if(t.getSquare(shape,1,i,j) == 1){
+		if(t.getSquare(shape,ori,i,j) == 1){
 		    g.drawRect(row,col,40,40);
 		    g.drawRect(row-1,col-1,40,40);
 		    g.setColor(t.getCol(shape));
@@ -56,15 +57,20 @@ public class Board extends JPanel implements ActionListener{
 	ycor++;
     }
     public void actionPerformed(ActionEvent e){
+	if(curShape != null){
+	   if(!tryMovePiece()){
+		moving = false;
+	   }
+	}
 	if(!moving){
 	    xcor = 4;
 	    ycor = 0;
-	    orientation = 1;
+	    orientation = 0;
 	    moving = false;
 	}
 	repaint();
     }
-    private boolean movePiece(){
+    private boolean tryMovePiece(){
 	if(t.getLen(curShape, orientation) + ycor > 20){
 	    return false;
 	}
