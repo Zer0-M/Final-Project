@@ -17,6 +17,8 @@ public class Tetris extends JFrame implements ActionListener{
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	pause=new JButton("pause");
 	play=new JButton("play");
+  pause.setFocusable(false);
+  play.setFocusable(false);
 	pause.addActionListener(this);
 	play.addActionListener(this);
 	pane = this.getContentPane();
@@ -33,14 +35,14 @@ public class Tetris extends JFrame implements ActionListener{
 	sidebar.add(score);
     }
     public void actionPerformed(ActionEvent e){
-	/*String s=e.getActionCommand();
+	String s=e.getActionCommand();
 	if(s.equals("pause")){
 	    matrix.pause();
 	}
 	else if(s.equals("play")){
 	    matrix.play();
 	}
-	*/
+
     }
     public String getScore(){
 	return score.getText();

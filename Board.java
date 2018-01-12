@@ -156,6 +156,12 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
 	return false;
     }
+   public void play(){
+    timer.start();
+  }
+  public void pause(){
+    timer.stop();
+  }
     private boolean isFilled(){
 	return false;
     }
