@@ -22,7 +22,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
 	coordTable = new int[20][10];
-	timer=new Timer(200, this);
+	timer=new Timer(500, this);
 	timer.start();
 	xcor = 4;
 	ycor = 0;
@@ -121,23 +121,25 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     public void keyPressed(KeyEvent e){
     }
     private void rotateR(){
-	System.out.println(ycor);
-	int len = t.getWid(curShape, (orientation+1) % t.getOris(curShape));
+	boolean canRotate = true;
+	int wid = t.getWid(curShape, (orientation+1) % t.getOris(curShape));
 	if(len + xcor < 10 && xcor - len >= 0){
-	    ycor += (t.getLen(curShape, orientation+1) - t.getLen(curShape, orientation));
+	    ycor += t.getLen(curShape, orientation) / 2;
 	    orientation = (orientation+1) % t.getOris(curShape);
 	}
     }
     private void rotateL(){
-	int len = t.getWid(curShape, ((orientation+t.getOris(curShape)-1) % t.getOris(curShape)));
+	boolean canRotate = true;
+	int wid = t.getWid(curShape, ((orientation+t.getOris(curShape)-1) % t.getOris(curShape)));
 	if(len + xcor < 10 && xcor - len >= 0){
+	    ycor += t.getLen(curShape, orientation) / 2;
 	    orientation = (orientation+t.getOris(curShape)-1) % t.getOris(curShape);
 	}
     }
     private void moveR(){
 	boolean canMove = true;
 	if(t.getWid(curShape, orientation) + xcor < 10){
-	    int x = xcor + t.getLen(curShape, orientation);
+	    int x = xcor + t.getLen(curShape, orientation)-1;
 	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
 		if(coordTable[y][x] >= 1 || (y < 19 && coordTable[y+1][x] >= 1)){
 		    canMove = false;
@@ -172,15 +174,16 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    if(y < 18 && curSquare == 1 && coordTable[y+2][x] >= 1){
 		return true;
 	    }
+	    i++;
 	}
 	return false;
     }
-   public void play(){
-    timer.start();
-  }
-  public void pause(){
-    timer.stop();
-  }
+    public void pause(){
+	timer.stop();
+    }
+    public void play(){
+	timer.start();
+    }
     private boolean isFilled(){
 	return false;
     }
@@ -188,7 +191,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
     }
     public void start(){
-
+	
     }
     public void end(){
     }
