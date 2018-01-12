@@ -22,7 +22,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
 	coordTable = new int[20][10];
-	timer=new Timer(400, this);
+	timer=new Timer(150, this);
 	timer.start();
 	xcor = 4;
 	ycor = 0;
@@ -187,7 +187,11 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	int y=ycor+t.getLen(curShape, orientation)-3;
 	int i = 0;
 	for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
-	    int curSquare = t.getSquare(curShape, orientation, t.getLen(curShape, orientation)-1, i);
+	    int testY = t.getLen(curShape, orientation)-1;
+	    int curSquare = t.getSquare(curShape, orientation, testY, i);
+	    if(curSquare == 0 && t.getSquare(curShape, orientation, testY-1, i) == 0){
+		curSquare = t.getSquare(curShape, orientation, testY-2, i);
+	    }
 	    if(y < 18 && (curSquare == 0 && coordTable[y+1][x] >= 1 || curSquare == 1 && coordTable[y+2][x] >= 1)){
 		return true;
 	    }
