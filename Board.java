@@ -22,7 +22,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
 	coordTable = new int[20][10];
-	timer=new Timer(500, this);
+	timer=new Timer(400, this);
 	timer.start();
 	xcor = 4;
 	ycor = 0;
@@ -94,6 +94,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    ycor = 0;
 	    orientation = 0;
 	}
+	isFilled();
 	repaint();
     }
     private boolean tryMoveDown(){
@@ -200,11 +201,31 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     public void play(){
 	timer.start();
     }
-    private boolean isFilled(){
-	return false;
+    private void isFilled(){
+	for(int y=0; y<20; y++){
+	    boolean filled = true;
+	    for(int x=0; x<10; x++){
+		if(coordTable[y][x] == 0){
+		    filled = false;
+		}
+	    }
+	    if(filled){
+		clearRow(y);
+	    }
+	}
     }
-    public void clearRow(int row){
-
+    public void clearRow(int y){
+	for(int x=0; x<10; x++){
+	    coordTable[y][x] = 0;
+	}
+	moveDown();
+    }
+    public void moveDown(){
+	for(int y=19; y>0; y--){
+	    for(int x=0; x<10; x++){
+		coordTable[y][x] = coordTable[y-1][x];
+	    }
+	}
     }
     public void start(){
 	
