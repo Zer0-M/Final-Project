@@ -121,8 +121,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     public void keyPressed(KeyEvent e){
     }
     private void rotateR(){
+	System.out.println(ycor);
 	int len = t.getWid(curShape, (orientation+1) % t.getOris(curShape));
 	if(len + xcor < 10 && xcor - len >= 0){
+	    ycor += (t.getLen(curShape, orientation+1) - t.getLen(curShape, orientation));
 	    orientation = (orientation+1) % t.getOris(curShape);
 	}
     }
@@ -133,13 +135,30 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
     }
     private void moveR(){
+	boolean canMove = true;
 	if(t.getWid(curShape, orientation) + xcor < 10){
-	    xcor++;
+	    int x = xcor + t.getLen(curShape, orientation);
+	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
+		if(coordTable[y][x] >= 1 || (y < 19 && coordTable[y+1][x] >= 1)){
+		    canMove = false;
+		}
+	    }
+	    if(canMove){
+		xcor++;
+	    }
 	}
     }
     private void moveL(){
+	boolean canMove = true;
 	if(xcor - t.getWid(curShape, orientation) >= -(t.getWid(curShape, orientation))+1){
-	    xcor--;
+	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
+		if(coordTable[y][xcor-1] >= 1 || (y < 19 && coordTable[y+1][xcor-1] >= 1)){
+		    canMove = false;
+		}
+	    }
+	    if(canMove){
+		xcor--;
+	    }
 	}
     }
     private boolean stopPiece(){
@@ -150,7 +169,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    if(curSquare == 0 && coordTable[y][x] >= 1){
 		return true;
 	    }
-	    if(y < 17 && curSquare == 1 && coordTable[y+2][x] >= 1){
+	    if(y < 18 && curSquare == 1 && coordTable[y+2][x] >= 1){
 		return true;
 	    }
 	}

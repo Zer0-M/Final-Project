@@ -180,7 +180,7 @@ public class Tetrimino{
     public int getNum(int[][][] shape){
 	return shape[shape.length-2][0][0];
     }
-    public int getOris(int[][][] shape, int ori){
+    public int getOris(int[][][] shape){
 	return shape.length-2;
     }
     public int[][][] randGen(){
