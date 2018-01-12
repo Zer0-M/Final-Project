@@ -73,7 +73,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
     public void actionPerformed(ActionEvent e){
 	if(curShape != null){
-	    //System.out.println(stopPiece());
 	    if(!tryMoveDown()){
 		moving = false;
 	    }
@@ -148,10 +147,12 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	int i = 0;
 	for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
 	    int curSquare = t.getSquare(curShape, orientation, t.getLen(curShape, orientation)-1, i);
-	    if((curSquare == 0 && coordTable[y][x] >= 1) || (curSquare == 1 && coordTable[y+1][x] >= 1)){
+	    if(curSquare == 0 && coordTable[y][x] >= 1){
 		return true;
 	    }
-	    i++;
+	    if(y < 17 && curSquare == 1 && coordTable[y+2][x] >= 1){
+		return true;
+	    }
 	}
 	return false;
     }
