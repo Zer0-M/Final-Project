@@ -170,7 +170,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void moveR(){
 	boolean canMove = true;
 	if(t.getWid(curShape, orientation) + xcor < 10){
-	    int x = xcor + t.getLen(curShape, orientation) - 2;
+	    int x = xcor + t.getLen(curShape, orientation)-1;
 	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
 		if(coordTable[y][x] >= 1 || (y < 19 && coordTable[y+1][x] >= 1)){
 		        canMove = false;    
@@ -247,9 +247,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     public void speedUp(){
 	if(ycor + t.getLen(curShape, orientation) < 20){
 	    boolean canMove = true;
-	    for(int y=ycor+1; y<ycor + 1  + t.getLen(curShape, orientation); y++){
+	    for(int y=ycor+2; y<ycor + 2  + t.getLen(curShape, orientation); y++){
 		for(int x=xcor; x<xcor + t.getWid(curShape, orientation); x++){
-		    if(coordTable[y][x] >= 1){
+		    if(y<20 && coordTable[y][x] >= 1){
 			canMove = false;
 		    }
 		}
@@ -264,7 +264,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 			Thread.currentThread().interrupt();
 		    }
 		    repaint();
-		    displacement += 200;
+		    displacement += 20;
 		}
 		displacement = 0;
 	    }
