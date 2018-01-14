@@ -270,6 +270,23 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    }
 	}
     }
+  public void restart(){
+    repaint();
+    revalidate();
+    t = new Tetrimino();
+	setBackground(Color.WHITE);
+	coordTable = new int[20][10];
+	timer=new Timer(200, this);
+	timer.start();
+	xcor = 4;
+	ycor = 0;
+	orientation = 0;
+	displacement = 0;
+	moving = false;
+	addKeyListener(this);
+	setFocusable(true);
+	setFocusTraversalKeysEnabled(false);
+  }
     public void start(){
     }
     public boolean end(){

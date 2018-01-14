@@ -9,6 +9,7 @@ public class Tetris extends JFrame implements ActionListener{
     private JButton pause;
     private JButton play;
     private JButton start;
+  private JButton restart;
     private Board  matrix;
     private JPanel sidebar;
     public Tetris(){
@@ -19,10 +20,13 @@ public class Tetris extends JFrame implements ActionListener{
 	start=new JButton("START");
 	pause=new JButton("pause");
 	play=new JButton("play");
+  restart=new JButton("restart");
 	start.addActionListener(this);
+  restart.addActionListener(this);
 	pause.setFocusable(false);
 	play.setFocusable(false);
 	start.setFocusable(false);
+  restart.setFocusable(false);
 	pause.addActionListener(this);
 	play.addActionListener(this);
 	pane = this.getContentPane();
@@ -38,6 +42,7 @@ public class Tetris extends JFrame implements ActionListener{
 	pane.add(sidebar);
 	matrix.setVisible(false);
 	sidebar.setVisible(false);
+  sidebar.add(restart);
 	sidebar.add(play);
 	sidebar.add(pause);
 	sidebar.add(score);
@@ -54,6 +59,9 @@ public class Tetris extends JFrame implements ActionListener{
 	if(s.equals("pause")){
 	    matrix.pause();
 	}
+  if(s.equals("restart")){
+    matrix.restart();
+  }
 	else if(s.equals("play")){
 	    matrix.play();
 	}
