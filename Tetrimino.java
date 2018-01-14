@@ -14,10 +14,14 @@ public class Tetrimino{
     private int[][][] Z;
     private int[][][] J;
     private int[][][] L;
+    private int[][] coords;
     private ArrayList<Integer> shapeGen;
     private Integer[] newGen;
     public Tetrimino(){
 	I = new int[][][] {
+	    {
+		{Color.CYAN.getRGB()}
+	    },
 	    {
 		{1,1,1,1}
 	    },
@@ -26,27 +30,21 @@ public class Tetrimino{
 		{1},
 		{1},
 		{1}
-	    },
-	    {
-		{1}
-	    },
-	    {
-		{Color.CYAN.getRGB()}
 	    }
 	};
 	O = new int[][][]{
 	    {
-		{1,1},
-		{1,1}
-	    },
-	    {
-		{2}
-	    },
-	    {
 		{Color.YELLOW.getRGB()}
+	    },
+	    {
+		{0,1,1,0},
+		{0,1,1,0}
 	    }
 	};
 	T = new int[][][]{
+	    {
+		{Color.MAGENTA.getRGB()}
+	    },	
 	    {
 		{0,1,0},
 		{1,1,1}
@@ -64,15 +62,12 @@ public class Tetrimino{
 		{0,1},
 		{1,1},
 		{0,1},
-	    },
-	    {
-		{3}
-	    },
-	    {
-		{Color.MAGENTA.getRGB()}
 	    }
 	};
 	S = new int[][][] {
+	    {
+		{Color.GREEN.getRGB()}
+	    },
 	    {
 		{0,1,1},
 		{1,1,0}
@@ -82,14 +77,11 @@ public class Tetrimino{
 		{1,1},
 		{0,1}
 	    },
-	    {
-		{4}
-	    },
-	    {
-		{Color.GREEN.getRGB()}
-	    }   
 	};
 	Z = new int[][][] {
+	    {
+		{Color.RED.getRGB()}
+	    },
 	    {
 		{1,1,0},
 		{0,1,1}
@@ -98,15 +90,12 @@ public class Tetrimino{
 		{0,1},
 		{1,1},
 		{1,0}
-	    },
-	    {
-		{5}
-	    },
-	    {
-		{Color.RED.getRGB()}
 	    }
 	};
 	J = new int[][][] {
+	    {
+		{Color.BLUE.getRGB()}
+	    },
 	    {
 		{1,0,0},
 		{1,1,1}
@@ -124,15 +113,12 @@ public class Tetrimino{
 		{0,1},
 		{0,1},
 		{1,1}
-	    },
-	    {
-		{6}
-	    },
-	    {
-		{Color.BLUE.getRGB()}
 	    }
 	};
 	L = new int[][][] {
+	    {
+		{Color.ORANGE.getRGB()}
+	    },
 	    {
 		{0,0,1},
 		{1,1,1}
@@ -150,17 +136,12 @@ public class Tetrimino{
 		{1,1},
 		{0,1},
 		{0,1}
-	    },
-	    {
-		{7}
-	    },
-	    {
-		{Color.ORANGE.getRGB()}
 	    }
 	};
 	shapes = new int[][][][] {I,O,T,S,Z,J,L};
 	newGen = new Integer[] {0,0,1,1,2,2,3,3,4,4,5,5,6,6};
 	shapeGen = new ArrayList<Integer> ();
+	coords = new int[10][20];
     }
     public int getSquare(int[][][] shape,int orientation, int x,int y){
 	return shape[orientation][x][y];
@@ -172,16 +153,7 @@ public class Tetrimino{
 	return shape[orientation].length;
     }
     public Color getCol(int[][][] shape){
-	return new Color(shape[shape.length-1][0][0]);
-    }
-    public Color getCol(int shape){
-	return getCol(shapes[shape-1]);
-    }
-    public int getNum(int[][][] shape){
-	return shape[shape.length-2][0][0];
-    }
-    public int getOris(int[][][] shape){
-	return shape.length-2;
+	return new Color(shape[0][0][0]);
     }
     public int[][][] randGen(){
 	if(shapeGen.size() == 0){
@@ -189,18 +161,20 @@ public class Tetrimino{
 	}
 	return shapes[shapeGen.remove((int)(Math.random()*shapeGen.size()))];
     }
-    public int getYCor(){
-	return 0;
-    }
-    public int getXCor(){
-	return 0;
-    }
-    public void setXCor(){
+  public int getYCor(){
+    return 0;
+  }
+  public int getXCor(){
+    return 0;
+  }
+  public void setXCor(){
     
-    }
-    public void setYCor(){
+  }
+  public void setYCor(){
     
-    }    
+  }
+  
+    
     public static void main(String[]args){
 	Tetrimino t = new Tetrimino();
     }

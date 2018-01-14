@@ -170,9 +170,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void moveR(){
 	boolean canMove = true;
 	if(t.getWid(curShape, orientation) + xcor < 10){
+	    int x = xcor + t.getLen(curShape, orientation)-1;
 	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
-		if(coordTable[y][xcor+1] >= 1 || (y < 19 && coordTable[y+1][xcor+1] >= 1)){
-		        canMove = false;    
+		if(coordTable[y][x] >= 1 || (y < 19 && coordTable[y+1][x] >= 1)){
+		    canMove = false;    
 		}
 	    }
 	    if(canMove){
@@ -192,90 +193,107 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		xcor--;
 	    }
 	}
-    }
-    private boolean stopPiece(){
-	int y = ycor+t.getLen(curShape, orientation)-1;
-	int testY = t.getLen(curShape, orientation)-1;
-	int i = 0;
-	for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
-	    int curSquare = t.getSquare(curShape, orientation, testY, i);
-	    if(curSquare == 0 && t.getSquare(curShape, orientation, testY-1, i) == 0){
-		y--;
+	private boolean stopPiece(){
+	    int y = ycor+t.getLen(curShape, orientation)-1;
+	    int testY = t.getLen(curShape, orientation)-1;
+	    int i = 0;
+	    for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
+		int curSquare = t.getSquare(curShape, orientation, testY, i);
+		if(curSquare == 0 && t.getSquare(curShape, orientation, testY-1, i) == 0){
+		    y--;
+		}
+		if(y < 20 && (curSquare == 0 && coordTable[y-1][x] >= 1 || curSquare == 1 && coordTable[y][x] >= 1)){
+		    return true;
+		}
+		i++;
 	    }
-	    if(y < 20 && (curSquare == 0 && coordTable[y-1][x] >= 1 || curSquare == 1 && coordTable[y][x] >= 1)){
-		return true;
-	    }
-	    i++;
+	    return false;
 	}
-	return false;
-    }
-    public void pause(){
-	timer.stop();
-    }
-    public void play(){
-	timer.start();
-    }
-    private void isFilled(){
-	for(int y=19; y>=0; y--){
-	    boolean filled = true;
-	    for(int x=0; x<10; x++){
-		if(coordTable[y][x] == 0){
+	public void pause(){
+	    timer.stop();
+	}
+	public void play(){
+	    timer.start();
+	}
+	private void isFilled(){
+	    for(int y=19; y>=0; y--){
+		boolean filled = true;
+		for(int x=0; x<10; x++){
+		    if(coordTable[y][x] == 0){
+			filled = false;
+		    }
+		}
+		if(filled){
+		    clearRow(y);
 		    filled = false;
 		}
 	    }
-	    if(filled){
-		clearRow(y);
-		filled = false;
-	    }
 	}
-    }
-    public void clearRow(int y){
-	for(int x=0; x<10; x++){
-	    coordTable[y][x] = 0;
-	}
-	moveDown(y);
-    }
-    public void moveDown(int y){
-	while(y>0){
+	public void clearRow(int y){
 	    for(int x=0; x<10; x++){
-		coordTable[y][x] = coordTable[y-1][x];
+		coordTable[y][x] = 0;
 	    }
-	    y--;
+	    moveDown(y);
 	}
-    }
-    public void speedUp(){
-	if(ycor + t.getLen(curShape, orientation) < 20){
-	    boolean canMove = true;
-	    for(int y=ycor+2; y<ycor + 2  + t.getLen(curShape, orientation); y++){
-		for(int x=xcor; x<xcor + t.getWid(curShape, orientation); x++){
-		    if(y<20 && coordTable[y][x] >= 1){
-			canMove = false;
-		    }
+	public void moveDown(int y){
+	    while(y>0){
+		for(int x=0; x<10; x++){
+		    coordTable[y][x] = coordTable[y-1][x];
 		}
+		y--;
 	    }
-	    if(canMove){
-		for(int i=0; i<5; i++){
-		    try{
-			if(i>0){
-			    Thread.sleep(50);
+	}
+	public void speedUp(){
+	    if(ycor + t.getLen(curShape, orientation) < 20){
+		boolean canMove = true;
+		for(int y=ycor+2; y<ycor + 2  + t.getLen(curShape, orientation); y++){
+		    for(int x=xcor; x<xcor + t.getWid(curShape, orientation); x++){
+			if(y<20 && coordTable[y][x] >= 1){
+			    canMove = false;
 			}
-		    }catch(InterruptedException e){
-			Thread.currentThread().interrupt();
 		    }
-		    repaint();
-		    displacement += 20;
 		}
-		displacement = 0;
+		if(canMove){
+		    for(int i=0; i<5; i++){
+			try{
+			    if(i>0){
+				Thread.sleep(50);
+			    }
+			}catch(InterruptedException e){
+			    Thread.currentThread().interrupt();
+			}
+			repaint();
+			displacement += 20;
+		    }
+		    displacement = 0;
+		}
 	    }
 	}
-    }
-    public void start(){
-    }
-    public boolean end(){
-	if(coordTable[1][4] >= 1){
-	    timer.stop();
-	    return true;
+	public void restart(){
+	    repaint();
+	    revalidate();
+	    t = new Tetrimino();
+	    setBackground(Color.WHITE);
+	    coordTable = new int[20][10];
+	    timer=new Timer(200, this);
+	    timer.start();
+	    xcor = 4;
+	    ycor = 0;
+	    orientation = 0;
+	    displacement = 0;
+	    moving = false;
+	    addKeyListener(this);
+	    setFocusable(true);
+	    setFocusTraversalKeysEnabled(false);
 	}
-	return false;
+	public void start(){
+	}
+	public boolean end(){
+	    if(coordTable[1][4] >= 1){
+		timer.stop();
+		return true;
+	    }
+	    return false;
+	}
     }
 }
