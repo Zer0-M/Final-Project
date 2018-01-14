@@ -22,7 +22,7 @@ public class Tetris extends JFrame implements ActionListener{
 	start=new JButton("START");
 	pause=new JButton("pause");
 	play=new JButton("play");
-	timer=new Timer(500,this);
+	timer=new Timer(10,this);
 	timer.setActionCommand("gameover?");
 	timer.start();
 	restart=new JButton("restart");
