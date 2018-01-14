@@ -31,9 +31,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	displacement = 0;
 	moving = false;
 	addKeyListener(this);
+	setFocusable(true);
+	setFocusTraversalKeysEnabled(false);
     }
     public void paint(Graphics g){
-	System.out.println("help");
 	super.paintComponent(g);
 	int row = xcor*40;
 	int col = ycor*40+displacement;
@@ -169,9 +170,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void moveR(){
 	boolean canMove = true;
 	if(t.getWid(curShape, orientation) + xcor < 10){
-	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation)-1; y++){
-		if(coordTable[y][xcor+1] >= 1 || (y < 19 && coordTable[y+1][xcor+1] >= 1)){
-		    canMove = false;    
+	    int x = xcor + t.getLen(curShape, orientation)-1;
+	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
+		if(coordTable[y][x] >= 1 || (y < 19 && coordTable[y+1][x] >= 1)){
+		        canMove = false;    
 		}
 	    }
 	    if(canMove){
@@ -182,7 +184,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void moveL(){
 	boolean canMove = true;
 	if(xcor - t.getWid(curShape, orientation) >= -(t.getWid(curShape, orientation))+1){
-	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation)-1; y++){
+	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
 		if(coordTable[y][xcor-1] >= 1 || (y<19 && coordTable[y+1][xcor-1] >= 1)){
 		    canMove = false;
 		}
@@ -193,15 +195,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
     }
     private boolean stopPiece(){
-	int testY = t.getLen(curShape, orientation)-1;
+	int y=ycor+t.getLen(curShape, orientation)-3;
 	int i = 0;
 	for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
-	    int y = ycor+t.getLen(curShape, orientation)-1;
+	    int testY = t.getLen(curShape, orientation)-1;
 	    int curSquare = t.getSquare(curShape, orientation, testY, i);
 	    if(curSquare == 0 && t.getSquare(curShape, orientation, testY-1, i) == 0){
-		y--;
+		curSquare = t.getSquare(curShape, orientation, testY-2, i);
 	    }
-	    if(y < 20 && (curSquare == 0 && coordTable[y-1][x] >= 1 || curSquare == 1 && coordTable[y][x] >= 1)){
+	    if(y < 18 && (curSquare == 0 && coordTable[y+1][x] >= 1 || curSquare == 1 && coordTable[y+2][x] >= 1)){
 		return true;
 	    }
 	    i++;
@@ -267,16 +269,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		displacement = 0;
 	    }
 	}
-    }
-    public void restart(){
-	coordTable = new int[20][10];
-	repaint();
-	revalidate();
-	xcor = 4;
-	ycor = 0;
-	orientation = 0;
-	displacement = 0;
-	moving = false;
     }
     public void start(){
     }
