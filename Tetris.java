@@ -36,15 +36,17 @@ public class Tetris extends JFrame implements ActionListener{
 	play.addActionListener(this);
 	pane = this.getContentPane();
 	start.setPreferredSize(new Dimension(200, 100));
-	pane.setLayout(new FlowLayout());
+	pane.setLayout(new GridBagLayout());
   score=new JLabel("0");
   gameover=new JLabel("GAMEOVER");
   gameover.setFont(new Font("Serif",Font.PLAIN,100));
+  gameover.setForeground(Color.RED);
 	sidebar=new JPanel();
 
 	score.setFont(new Font("Serif",Font.PLAIN,30));
 	matrix=new Board(this);
-	pane.add(start);
+	pane.add(start, new GridBagConstraints());
+
 	pane.add(matrix);
 	pane.add(sidebar);
 	matrix.setVisible(false);
