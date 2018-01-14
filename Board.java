@@ -245,7 +245,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    coordTable[y][x] = 0;
 	}
 	newScore += 10;
-	score.setText(String.valueOf(newScore));
+	score.setText("Score:"+String.valueOf(newScore));
 	moveDown(y);
     }
     public void moveDown(int y){
@@ -286,7 +286,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	repaint();
 	revalidate();
 	coordTable = new int[20][10];
-	score.setText("0");
+	score.setText("Score:0");
 	newScore = 0;
 	timer.start();
 	xcor = 4;
@@ -296,7 +296,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	moving = false;
     }
     public boolean end(){
-	if(coordTable[0][4] >= 1 && coordTable[0][5] >= 1){
+	if(coordTable[0][4] >= 1 && coordTable[1][4] >= 1){
 	    timer.stop();
 	    return true;
 	}
