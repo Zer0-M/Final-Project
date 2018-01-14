@@ -153,30 +153,25 @@ public class Tetrimino{
 	return shape[orientation].length;
     }
     public Color getCol(int[][][] shape){
-	return new Color(shape[0][0][0]);
+	return new Color(shape[shape.length-1][0][0]);
+    }
+    public Color getCol(int shape){
+	return getCol(shapes[shape-1]);
+    }
+    public int getNum(int[][][] shape){
+	return shape[shape.length-2][0][0];
+    }
+    public int getOris(int[][][] shape){
+	return shape.length-2;
     }
     public int[][][] randGen(){
 	if(shapeGen.size() == 0){
 	    shapeGen.addAll(Arrays.asList(newGen));
 	}
 	return shapes[shapeGen.remove((int)(Math.random()*shapeGen.size()))];
-    }
-  public int getYCor(){
-    return 0;
-  }
-  public int getXCor(){
-    return 0;
-  }
-  public void setXCor(){
-    
-  }
-  public void setYCor(){
-    
-  }
-  
-    
+    }    
     public static void main(String[]args){
 	Tetrimino t = new Tetrimino();
     }
-}    
+}
     
