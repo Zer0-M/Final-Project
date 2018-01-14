@@ -43,7 +43,7 @@ public class Tetris extends JFrame implements ActionListener{
 	gameover.setForeground(Color.RED);
 	sidebar=new JPanel();
 
-	score.setFont(new Font("Serif",Font.PLAIN,30));
+	score.setFont(new Font("Serif",Font.PLAIN,50));
 	matrix=new Board(this);
 	pane.add(start, new GridBagConstraints());
 
@@ -60,8 +60,10 @@ public class Tetris extends JFrame implements ActionListener{
     	matrix.setVisible(false);
 	sidebar.setVisible(false);
 	pane.setLayout(new FlowLayout());
+  pane.add(start);
 	pane.add(gameover);
-     	pane.add(start);
+  pane.add(score);
+
     }
     public void actionPerformed(ActionEvent e){
 	String s=e.getActionCommand();
@@ -76,6 +78,7 @@ public class Tetris extends JFrame implements ActionListener{
 	    matrix.restart();
 	    pane.setLayout(new GridLayout());
 	    pane.remove(start);
+      pane.remove(score);
 	    matrix.setVisible(true);
 	    matrix.requestFocus();
 	    sidebar.setVisible(true);
