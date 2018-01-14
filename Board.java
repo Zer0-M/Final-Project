@@ -194,10 +194,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
     }
     private boolean stopPiece(){
-	int y = ycor+t.getLen(curShape, orientation)-1;
 	int testY = t.getLen(curShape, orientation)-1;
 	int i = 0;
 	for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
+	    int y = ycor+t.getLen(curShape, orientation)-1;
 	    int curSquare = t.getSquare(curShape, orientation, testY, i);
 	    if(curSquare == 0 && t.getSquare(curShape, orientation, testY-1, i) == 0){
 		y--;
