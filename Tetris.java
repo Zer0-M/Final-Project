@@ -12,7 +12,6 @@ public class Tetris extends JFrame implements ActionListener{
   private JButton restart;
   private JButton start;
   private Board  matrix;
-  private Board matrix1;
   private JPanel sidebar;
   public Tetris(){
     this.setTitle("Tetris");
