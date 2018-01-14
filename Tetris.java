@@ -36,7 +36,7 @@ public class Tetris extends JFrame implements ActionListener{
 	sidebar=new JPanel();
 
 	score.setFont(new Font("Serif",Font.PLAIN,30));
-	matrix=new Board();
+	matrix=new Board(this);
 	pane.add(start);
 	pane.add(matrix);
 	pane.add(sidebar);
@@ -65,10 +65,9 @@ public class Tetris extends JFrame implements ActionListener{
 	else if(s.equals("play")){
 	    matrix.play();
 	}
-
     }
-    public String getScore(){
-	return score.getText();
+    public JLabel getScore(){
+	return score;
     }
     public static void main(String[] args){
 	Tetris t=new Tetris();

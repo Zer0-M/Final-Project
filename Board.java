@@ -10,7 +10,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
 public class Board extends JPanel implements ActionListener, KeyListener{
-    public Timer timer;
+    private JLabel score;
+    private Timer timer;
+    public int newScore;
     private int xcor;
     private int ycor;
     private int orientation;
@@ -19,9 +21,11 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private int[][][] curShape;
     private int[][] coordTable;
     private Tetrimino t;
-    public Board() {
+    public Board(Tetris parent) {
+	score = parent.getScore();
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
+	newScore = 0;
 	coordTable = new int[20][10];
 	timer=new Timer(200, this);
 	timer.start();
@@ -171,8 +175,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	boolean canMove = true;
 	if(t.getWid(curShape, orientation) + xcor < 10){
 	    for(int y=ycor; y<ycor + t.getLen(curShape, orientation); y++){
-		if(coordTable[y][xcor+1] >= 1 || (y<19 && coordTable[y+1][xcor+1] >= 1)){
+		for(int x=xcor; x<xcor + t.getWid(curShape, orientation); x++){
+		    if(coordTable[y][x+1] >= 1){
 		        canMove = false;    
+		    }
 		}
 	    }
 	    if(canMove){
@@ -184,8 +190,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	boolean canMove = true;
 	if(xcor - t.getWid(curShape, orientation) >= -(t.getWid(curShape, orientation))+1){
 	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
-		if(coordTable[y][xcor-1] >= 1 || (y<19 && coordTable[y+1][xcor+1] >= 1)){
-		    canMove = false;
+		for(int x=xcor; x<xcor+t.getWid(curShape, orientation); x++){ 
+		    if(coordTable[y][x-1] >= 1){
+			canMove = false;
+		    }
 		}
 	    }
 	    if(canMove){
@@ -236,6 +244,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	for(int x=0; x<10; x++){
 	    coordTable[y][x] = 0;
 	}
+	newScore += 10;
+	score.setText(String.valueOf(newScore));
 	moveDown(y);
     }
     public void moveDown(int y){
@@ -275,19 +285,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     public void restart(){
 	repaint();
 	revalidate();
-	t = new Tetrimino();
- 	setBackground(Color.WHITE);
- 	coordTable = new int[20][10];
- 	timer=new Timer(200, this);
- 	timer.start();
- 	xcor = 4;
- 	ycor = 0;
- 	orientation = 0;
- 	displacement = 0;
- 	moving = false;
- 	addKeyListener(this);
- 	setFocusable(true);
- 	setFocusTraversalKeysEnabled(false);
+	coordTable = new int[20][10];
+	score.setText("0");
+	newScore = 0;
+	timer.start();
+	xcor = 4;
+	ycor = 0;
+	orientation = 0;
+	displacement = 0;
+	moving = false;
     }
     public boolean end(){
 	if(coordTable[0][4] >= 1 && coordTable[0][5] >= 1){
