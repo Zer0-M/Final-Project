@@ -114,7 +114,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    rotateR();
 	}
 	if(e.getKeyCode() == KeyEvent.VK_DOWN){
-	    rotateR();
+	    rotateL();
 	}
 	if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 	    moveR();
@@ -136,8 +136,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	int len = t.getLen(curShape, (orientation+1) % t.getOris(curShape));
 	if(wid + xcor < 11 && len + ycor < 21){
 	    int ori = (orientation+1) % t.getOris(curShape);
-	    for(int y = ycor+1; y<t.getLen(curShape, ori); y++){
-		for(int x = xcor; x<t.getWid(curShape, ori); x++){
+	    for(int y = ycor; y<t.getLen(curShape, ori)+ycor; y++){
+		for(int x = xcor; x<t.getWid(curShape, ori)+xcor; x++){
 		    if(coordTable[y][x] >= 1 || (y < 18 && coordTable[y+1][x] >= 1)){
 			canRotate = false;
 		    }
@@ -151,11 +151,11 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void rotateL(){
 	boolean canRotate = true;
 	int wid = t.getWid(curShape, ((orientation+t.getOris(curShape)-1) % t.getOris(curShape)));
-	int len = t.getLen(curShape, (orientation+1) % t.getOris(curShape));
+	int len = t.getLen(curShape, ((orientation+t.getOris(curShape)-1) % t.getOris(curShape)));
 	if(wid + xcor < 11 && len + ycor < 21){
 	    int ori = (orientation+t.getOris(curShape)-1) % t.getOris(curShape);
-	    for(int y = ycor+1; y<t.getLen(curShape, ori); y++){
-		for(int x = xcor; x<t.getWid(curShape, ori); x++){
+	    for(int y = ycor; y<t.getLen(curShape, ori)+ycor; y++){
+		for(int x = xcor; x<t.getWid(curShape, ori)+xcor; x++){
 		    if(coordTable[y][x] >= 1 || (y < 18 && coordTable[y+1][x] >= 1)){
 			canRotate = false;   
 		    }
@@ -170,10 +170,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void moveR(){
 	boolean canMove = true;
 	if(t.getWid(curShape, orientation) + xcor < 10){
-	    int x = xcor + t.getLen(curShape, orientation)-1;
-	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
-		if(coordTable[y][x] >= 1 || (y < 19 && coordTable[y+1][x] >= 1)){
-		        canMove = false;    
+	    for(int y=ycor; y<ycor + t.getLen(curShape, orientation); y++){
+		if(coordTable[y][xcor+1] >= 1 || (y<19 && coordTable[y+1][xcor+1] >= 1)){
+		    canMove = false;    
 		}
 	    }
 	    if(canMove){
@@ -185,7 +184,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	boolean canMove = true;
 	if(xcor - t.getWid(curShape, orientation) >= -(t.getWid(curShape, orientation))+1){
 	    for(int y=ycor; y< ycor + t.getLen(curShape, orientation); y++){
-		if(coordTable[y][xcor-1] >= 1 || (y<19 && coordTable[y+1][xcor-1] >= 1)){
+		if(coordTable[y][xcor-1] >= 1 || (y<19 && coordTable[y+1][xcor+1] >= 1)){
 		    canMove = false;
 		}
 	    }
@@ -195,16 +194,19 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
     }
     private boolean stopPiece(){
-	int y=ycor+t.getLen(curShape, orientation)-3;
+	int y=ycor+t.getLen(curShape, orientation)-1;
 	int i = 0;
 	for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
 	    int testY = t.getLen(curShape, orientation)-1;
 	    int curSquare = t.getSquare(curShape, orientation, testY, i);
 	    if(curSquare == 0 && t.getSquare(curShape, orientation, testY-1, i) == 0){
-		curSquare = t.getSquare(curShape, orientation, testY-2, i);
+		y--;
 	    }
-	    if(y < 18 && (curSquare == 0 && coordTable[y+1][x] >= 1 || curSquare == 1 && coordTable[y+2][x] >= 1)){
+	    if(y < 20 && (curSquare == 0 && coordTable[y-1][x] >= 1 || curSquare == 1 && coordTable[y][x] >= 1)){
 		return true;
+	    }
+	    if(y < t.getLen(curShape, orientation)-1){
+		y++;
 	    }
 	    i++;
 	}
@@ -270,27 +272,25 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    }
 	}
     }
-  public void restart(){
-    repaint();
-    revalidate();
-    t = new Tetrimino();
-	setBackground(Color.WHITE);
-	coordTable = new int[20][10];
-	timer=new Timer(200, this);
-	timer.start();
-	xcor = 4;
-	ycor = 0;
-	orientation = 0;
-	displacement = 0;
-	moving = false;
-	addKeyListener(this);
-	setFocusable(true);
-	setFocusTraversalKeysEnabled(false);
-  }
-    public void start(){
+    public void restart(){
+	repaint();
+	revalidate();
+	t = new Tetrimino();
+ 	setBackground(Color.WHITE);
+ 	coordTable = new int[20][10];
+ 	timer=new Timer(200, this);
+ 	timer.start();
+ 	xcor = 4;
+ 	ycor = 0;
+ 	orientation = 0;
+ 	displacement = 0;
+ 	moving = false;
+ 	addKeyListener(this);
+ 	setFocusable(true);
+ 	setFocusTraversalKeysEnabled(false);
     }
     public boolean end(){
-	if(coordTable[1][4] >= 1){
+	if(coordTable[0][4] >= 1 && coordTable[0][5] >= 1){
 	    timer.stop();
 	    return true;
 	}
