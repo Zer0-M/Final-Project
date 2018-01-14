@@ -6,6 +6,8 @@ import java.awt.Color;
 public class Tetris extends JFrame implements ActionListener{
     private Container pane;
     private JLabel  score;
+    private Timer timer;
+    private JLabel  gameover;
     private JButton pause;
     private JButton play;
     private JButton start;
@@ -20,6 +22,9 @@ public class Tetris extends JFrame implements ActionListener{
 	start=new JButton("START");
 	pause=new JButton("pause");
 	play=new JButton("play");
+  timer=new Timer(500,this);
+  timer.setActionCommand("gameover?");
+  timer.start();
 	restart=new JButton("restart");
 	start.addActionListener(this);
 	restart.addActionListener(this);
@@ -32,7 +37,9 @@ public class Tetris extends JFrame implements ActionListener{
 	pane = this.getContentPane();
 	start.setPreferredSize(new Dimension(200, 100));
 	pane.setLayout(new FlowLayout());
-	score=new JLabel("0");
+  score=new JLabel("0");
+  gameover=new JLabel("GAMEOVER");
+  gameover.setFont(new Font("Serif",Font.PLAIN,100));
 	sidebar=new JPanel();
 
 	score.setFont(new Font("Serif",Font.PLAIN,30));
@@ -47,9 +54,24 @@ public class Tetris extends JFrame implements ActionListener{
 	sidebar.add(pause);
 	sidebar.add(score);
     }
+    public void gameOver(){
+    	matrix.setVisible(false);
+      sidebar.setVisible(false);
+      pane.setLayout(new FlowLayout());
+      pane.add(gameover);
+     	pane.add(start);
+  }
     public void actionPerformed(ActionEvent e){
 	String s=e.getActionCommand();
+  if(s.equals("gameover?")){
+        if(matrix.end()){
+          gameOver();
+
+        }
+      }
 	if(s.equals("START")){
+    pane.remove(gameover);
+    matrix.restart();
 	    pane.setLayout(new GridLayout());
 	    pane.remove(start);
 	    matrix.setVisible(true);
