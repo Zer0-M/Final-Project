@@ -13,8 +13,8 @@ public class Tetris extends JFrame implements ActionListener{
     private JPanel sidebar;
     public Tetris(){
 	this.setTitle("Tetris");
-	this.setSize(800,800);
-	this.setLocation(100,100);
+	this.setSize(800,1000);
+	this.setLocation(100,0);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	start=new JButton("START");
 	pause=new JButton("pause");
