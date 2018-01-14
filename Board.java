@@ -31,10 +31,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	displacement = 0;
 	moving = false;
 	addKeyListener(this);
-	setFocusable(true);
-	setFocusTraversalKeysEnabled(false);
     }
     public void paint(Graphics g){
+	System.out.println("help");
 	super.paintComponent(g);
 	int row = xcor*40;
 	int col = ycor*40+displacement;
@@ -270,21 +269,14 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
     }
     public void restart(){
+	coordTable = new int[20][10];
 	repaint();
 	revalidate();
-	t = new Tetrimino();
-	setBackground(Color.WHITE);
-	coordTable = new int[20][10];
-	timer=new Timer(200, this);
-	timer.start();
 	xcor = 4;
 	ycor = 0;
 	orientation = 0;
 	displacement = 0;
 	moving = false;
-	addKeyListener(this);
-	setFocusable(true);
-	setFocusTraversalKeysEnabled(false);
     }
     public void start(){
     }
