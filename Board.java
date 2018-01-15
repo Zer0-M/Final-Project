@@ -213,7 +213,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    if(y < 20 && (curSquare == 0 && coordTable[y-1][x] >= 1 || curSquare == 1 && coordTable[y][x] >= 1)){
 		return true;
 	    }
-	    if(y < t.getLen(curShape, orientation)-1){
+	    if(y < ycor + t.getLen(curShape, orientation)-1){
 		y++;
 	    }
 	    i++;

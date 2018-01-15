@@ -60,10 +60,9 @@ public class Tetris extends JFrame implements ActionListener{
     	matrix.setVisible(false);
 	sidebar.setVisible(false);
 	pane.setLayout(new FlowLayout());
-  pane.add(start);
 	pane.add(gameover);
-  pane.add(score);
-
+	pane.add(score);
+	pane.add(start);
     }
     public void actionPerformed(ActionEvent e){
 	String s=e.getActionCommand();
@@ -78,9 +77,10 @@ public class Tetris extends JFrame implements ActionListener{
 	    matrix.restart();
 	    pane.setLayout(new GridLayout());
 	    pane.remove(start);
-      pane.remove(score);
+	    pane.remove(score);
 	    matrix.setVisible(true);
 	    matrix.requestFocus();
+	    sidebar.add(score);
 	    sidebar.setVisible(true);
 	}
 	if(s.equals("pause")){
