@@ -10,24 +10,40 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
 public class Board extends JPanel implements ActionListener, KeyListener{
+    
+    //The score JLabel is modified from this class by using the get method in parent class
     private JLabel score;
-    private Timer timer;
     public int newScore;
+    
+    //Timer makes each piece move down at a fixed rate
+    private Timer timer;
+
+    //Keeps track of where each shape is after it reaches the bottom and finishes moving
+    private int[][] coordTable;
+
+    //These keep track of what shape is currently moving, if it is currently moving,  and where it is on the board
+    private int[][][] curShape;
     private int xcor;
     private int ycor;
     private int orientation;
-    private int displacement;
     private boolean moving;
-    private int[][][] curShape;
-    private int[][] coordTable;
+    
+    //Used when speeding up the block so that it moves a smaller distance, but more frequently
+    private int displacement;
+
+    //Used to call the functions needed to get the shapes and their dimensions
     private Tetrimino t;
+
+    //Creates the actual game
     public Board(Tetris parent) {
 	score = parent.getScore();
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
 	newScore = 0;
 	coordTable = new int[20][10];
-	timer=new Timer(200, this);
+
+	//Calls actionPerformed
+	timer=new Timer(300, this);
 	timer.start();
 	xcor = 4;
 	ycor = 0;
@@ -38,23 +54,23 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	setFocusable(true);
 	setFocusTraversalKeysEnabled(false);
     }
+
+    //Creates all the shapes currently on the board and the shape being moved
     public void paint(Graphics g){
 	super.paintComponent(g);
 	int row = xcor*40;
 	int col = ycor*40+displacement;
 	int ori = orientation;
-	int[][][] shape;
 	if(!moving){
-	    shape = t.randGen();
-	    this.curShape = shape;
+	    curShape = t.randGen();
 	    moving = true;
-	}else{
-	    shape = curShape;
 	}
-	for(int i=0; i<t.getLen(shape, ori); i++){
-	    for(int j=0; j<t.getWid(shape, ori); j++){
-		if(t.getSquare(shape,ori,i,j) == 1){
-		    g.setColor(t.getCol(shape));
+	
+	//Creates the shape that is moving
+	for(int i=0; i<t.getLen(curShape, ori); i++){
+	    for(int j=0; j<t.getWid(curShape, ori); j++){
+		if(t.getSquare(curShape,ori,i,j) == 1){
+		    g.setColor(t.getCol(curShape));
 		    g.fillRect(row,col,40,40);
 		    g.setColor(Color.BLACK);
 		    g.drawRect(row,col,40,40);
@@ -64,6 +80,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    col += 40;
 	    row = xcor*40;
 	}
+
+	//Creates the shapes that are not moving and still on the board based on the numbers on the coordTable which correspond to its original shape
 	for(int y=0; y<20; y++){
 	    for(int x=0; x<10; x++){
 		if(coordTable[y][x] > 0){
@@ -75,16 +93,22 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		}
 	    }
 	}
+
+	//If the shape isn't speeding up, it moves normally
 	if(displacement == 0){
 	    ycor++;
 	}
     }
     public void actionPerformed(ActionEvent e){
+
+	//If the shape can't move down anymore, then it stops
 	if(curShape != null){
 	    if(!tryMoveDown()){
 		moving = false;
 	    }
 	}
+
+	//When a shape isn't moving anymore, store its location on the coordTable with its unique number
 	if(!moving  && curShape != null){
 	    int ori = orientation;
 	    int tempx = xcor;
@@ -102,17 +126,25 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    ycor = 0;
 	    orientation = 0;
 	}
+
+	//Check if there is a full line
 	isFilled();
+
+	//If the game isn't over, then keep painting. This makes sure the game doesn't end whenever a new piece spawns
 	if(!end()){
 	    repaint();
 	}
     }
+
+    //Checks if a piece has space to move down or if it's at the bottom of the screen
     private boolean tryMoveDown(){
-	if(stopPiece() || t.getLen(curShape, orientation) + ycor > 20 || t.getWid(curShape, orientation) + xcor > 10){
+	if(stopPiece() || t.getLen(curShape, orientation) + ycor > 20){
 	    return false;
 	}
 	return true;
     }
+
+    //Every time an arrow key is released, call the respective function
     public void keyReleased(KeyEvent e){
 	if(e.getKeyCode() == KeyEvent.VK_UP){
 	    rotateR();
@@ -129,11 +161,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
     public void keyTyped(KeyEvent e){
     }
+
+    //Every time space is pressed, call the speedUp function
     public void keyPressed(KeyEvent e){
 	if(e.getKeyCode() == KeyEvent.VK_SPACE){
 	    speedUp();
 	}
     }
+
+    //First checks if the shape won't collide with any other pieces or exit the board after its rotation by checking the coordTable and the shape's current xcor and ycor
     private void rotateR(){
 	boolean canRotate = true;
 	int wid = t.getWid(curShape, (orientation+1) % t.getOris(curShape));
@@ -147,11 +183,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		    }
 		}	
 	    }
+	    
+	    //If the shape can be rotated, then its orentation is changed
 	    if(canRotate){
 		orientation = ori;
 	    }
 	}
     }
+
+    //First checks if the shape won't collide with any other pieces or exit the board after its rotation by checking the coordTable and the shape's current xcor and ycor
     private void rotateL(){
 	boolean canRotate = true;
 	int wid = t.getWid(curShape, ((orientation+t.getOris(curShape)-1) % t.getOris(curShape)));
@@ -165,12 +205,16 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		    }
 		}
 	    }
+	    
+	    //If the shape can be rotated, then its orentation is changed
 	    if(canRotate){
 		orientation = ori;
 	    }
 	}
 
     }
+
+    //Checks if the shape can move sideways without colliding with other pieces by checking the coordTable and the shape's current xcor and ycor
     private void moveR(){
 	boolean canMove = true;
 	if(t.getWid(curShape, orientation) + xcor < 10){
@@ -181,11 +225,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		    }
 		}
 	    }
+
+	    //If the shape can move, the its position is changed
 	    if(canMove){
 		xcor++;
 	    }
 	}
     }
+
+    //Checks if the shape can move sideways without colliding with other pieces by checking the coordTable and the shape's current xcor and ycor
     private void moveL(){
 	boolean canMove = true;
 	if(xcor - t.getWid(curShape, orientation) >= -(t.getWid(curShape, orientation))+1){
@@ -196,23 +244,33 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		    }
 		}
 	    }
+
+	    //If the shape can move, then its position is changed
 	    if(canMove){
 		xcor--;
 	    }
 	}
     }
+
+    //Checks if the current piece needs to be stopped because there is another piece under it
     private boolean stopPiece(){
 	int y=ycor+t.getLen(curShape, orientation)-1;
 	int i = 0;
 	for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
+
+	    //Checks if the current shape is the L or J piece, in which case the empty spaces need to be taken into account
 	    int testY = t.getLen(curShape, orientation)-1;
 	    int curSquare = t.getSquare(curShape, orientation, testY, i);
 	    if(curSquare == 0 && t.getSquare(curShape, orientation, testY-1, i) == 0){
 		y--;
 	    }
+
+	    //Checks if the space under the piece is empty by using the coordTable and the piece's current xcor and ycor
 	    if(y < 20 && (curSquare == 0 && coordTable[y-1][x] >= 1 || curSquare == 1 && coordTable[y][x] >= 1)){
 		return true;
 	    }
+
+	    //If the shape was an L or J piece, then after the empty spaces are taken into account they can be treated as a normal piece
 	    if(y < ycor + t.getLen(curShape, orientation)-1){
 		y++;
 	    }
@@ -220,12 +278,18 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
 	return false;
     }
+
+    //Stops the timer so that actionCommand isn't called anymore and the game stops
     public void pause(){
 	timer.stop();
     }
+
+    //Starts the timer so that actionCommand is called and the game resumes
     public void play(){
 	timer.start();
     }
+
+    //Start from the end of the board and if there is a full line of shapes, call clearRow to clear that row and keep checking the rows above
     private void isFilled(){
 	for(int y=19; y>=0; y--){
 	    boolean filled = true;
@@ -240,14 +304,20 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    }
 	}
     }
+
+    //Get rid of the shapes in the full row and call moveDown to move down all the shapes in the row above
     public void clearRow(int y){
 	for(int x=0; x<10; x++){
 	    coordTable[y][x] = 0;
 	}
+
+	//Add 10 points to the score for every row deleted
 	newScore += 10;
 	score.setText("Score:"+String.valueOf(newScore));
 	moveDown(y);
     }
+
+    //Shift all of the values on the coordTable above the deleted row down one row
     public void moveDown(int y){
 	while(y>0){
 	    for(int x=0; x<10; x++){
@@ -256,6 +326,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    y--;
 	}
     }
+
+    //First checks if the piece can be moved down two spaces without colliding with another piece
     public void speedUp(){
 	if(ycor + t.getLen(curShape, orientation) < 20){
 	    boolean canMove = true;
@@ -266,6 +338,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		    }
 		}
 	    }
+
+	    //If the piece can move, then move it down half a space 4 times at double the normal speed
 	    if(canMove){
 		for(int i=0; i<5; i++){
 		    try{
@@ -282,6 +356,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    }
 	}
     }
+
+    //If the restart button is pressed, restart the panel, coordTable, and the current piece being moved 
     public void restart(){
 	repaint();
 	revalidate();
@@ -295,6 +371,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	displacement = 0;
 	moving = false;
     }
+
+    //Check if the player lost and if they did then end the game
     public boolean end(){
 	if(coordTable[0][4] >= 1 && coordTable[1][4] >= 1){
 	    timer.stop();
