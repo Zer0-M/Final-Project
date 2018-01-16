@@ -22,22 +22,29 @@ public class Tetris extends JFrame implements ActionListener{
 	start=new JButton("START");
 	pause=new JButton("pause");
 	play=new JButton("play");
+  restart=new JButton("restart");
+
+  // The timer is used to check if the game is over indicating whether the gameover method should be invoked
 	timer=new Timer(10,this);
 	timer.setActionCommand("gameover?");
 	timer.start();
-	restart=new JButton("restart");
-	start.addActionListener(this);
-	restart.addActionListener(this);
+
+
 	pause.setFocusable(false);
 	play.setFocusable(false);
 	start.setFocusable(false);
-	restart.setFocusable(false);
+  restart.setFocusable(false);
+
+  start.addActionListener(this);
+	restart.addActionListener(this);
 	pause.addActionListener(this);
 	play.addActionListener(this);
-	pane = this.getContentPane();
+
+  pane = this.getContentPane();
 	start.setPreferredSize(new Dimension(200, 100));
 	pane.setLayout(new GridBagLayout());
-	score=new JLabel("Score:0");
+
+  score=new JLabel("Score:0");
 	gameover=new JLabel("GAMEOVER");
 	gameover.setFont(new Font("Serif",Font.PLAIN,100));
 	gameover.setForeground(Color.RED);
@@ -56,6 +63,7 @@ public class Tetris extends JFrame implements ActionListener{
 	sidebar.add(pause);
 	sidebar.add(score);
     }
+  //The gameover method makes the matrix and sidebar invisible and adds the gameover label, score label and the start button to the pane.
     public void gameOver(){
     	matrix.setVisible(false);
 	sidebar.setVisible(false);
@@ -72,6 +80,7 @@ public class Tetris extends JFrame implements ActionListener{
 
 	    }
 	}
+  // The start button once pressed removes the start button and if the player is starting again the gameover label, and makes the matrix and sidebar visible, while also changing the panes layout.
 	if(s.equals("START")){
 	    pane.remove(gameover);
 	    matrix.restart();
@@ -83,16 +92,20 @@ public class Tetris extends JFrame implements ActionListener{
 	    sidebar.add(score);
 	    sidebar.setVisible(true);
 	}
+  // The pause button will pause the game once pressed
 	if(s.equals("pause")){
 	    matrix.pause();
 	}
+  //The restart button will restart the matrix and start the game from the beginning
 	if(s.equals("restart")){
 	    matrix.restart();
 	}
+  //the play button once pressed start the game if it is in a paused state
 	else if(s.equals("play")){
 	    matrix.play();
 	}
     }
+  //The getScore method returns the score Jlabel
     public JLabel getScore(){
 	return score;
     }
