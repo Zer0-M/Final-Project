@@ -93,6 +93,23 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		}
 	    }
 	}
+	if(curShape != null){
+	    int y = ycor;
+	    int x = xcor;
+	    while(tryMoveDown(y)){
+		y++;
+	    }
+	    for(int i=0; i<t.getLen(curShape, orientation); i++){
+		for(int j=0; j<t.getWid(curShape, orientation); j++){
+		    if(t.getSquare(curShape,ori,i,j) == 1){
+			g.drawRect(x*40,(y-1)*40,40,40);
+		    }
+		    x++;
+		}
+		x=xcor;
+		y++;
+	    }
+	}
 
 	//If the shape isn't speeding up, it moves normally
 	if(displacement == 0){
@@ -103,7 +120,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
 	//If the shape can't move down anymore, then it stops
 	if(curShape != null){
-	    if(!tryMoveDown()){
+	    if(!tryMoveDown(ycor)){
 		moving = false;
 	    }
 	}
@@ -137,8 +154,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
 
     //Checks if a piece has space to move down or if it's at the bottom of the screen
-    private boolean tryMoveDown(){
-	if(stopPiece() || t.getLen(curShape, orientation) + ycor > 20){
+    private boolean tryMoveDown(int y){
+	if(stopPiece(y) || t.getLen(curShape, orientation) + y > 20){
 	    return false;
 	}
 	return true;
@@ -253,8 +270,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
 
     //Checks if the current piece needs to be stopped because there is another piece under it
-    private boolean stopPiece(){
-	int y=ycor+t.getLen(curShape, orientation)-1;
+    private boolean stopPiece(int y){
+	int tempY=y+t.getLen(curShape, orientation)-1;
 	int i = 0;
 	for(int x=xcor; x<t.getWid(curShape, orientation) + xcor; x++){
 
@@ -262,17 +279,17 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    int testY = t.getLen(curShape, orientation)-1;
 	    int curSquare = t.getSquare(curShape, orientation, testY, i);
 	    if(curSquare == 0 && t.getSquare(curShape, orientation, testY-1, i) == 0){
-		y--;
+		tempY--;
 	    }
 
 	    //Checks if the space under the piece is empty by using the coordTable and the piece's current xcor and ycor
-	    if(y < 20 && (curSquare == 0 && coordTable[y-1][x] >= 1 || curSquare == 1 && coordTable[y][x] >= 1)){
+	    if(tempY < 20 && (curSquare == 0 && coordTable[tempY-1][x] >= 1 || curSquare == 1 && coordTable[tempY][x] >= 1)){
 		return true;
 	    }
 
 	    //If the shape was an L or J piece, then after the empty spaces are taken into account they can be treated as a normal piece
-	    if(y < ycor + t.getLen(curShape, orientation)-1){
-		y++;
+	    if(tempY < y+t.getLen(curShape, orientation)-1){
+		tempY++;
 	    }
 	    i++;
 	}
