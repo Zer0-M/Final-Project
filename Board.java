@@ -93,22 +93,20 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		}
 	    }
 	}
-	if(curShape != null){
-	    int y = ycor;
-	    int x = xcor;
-	    while(tryMoveDown(y)){
-		y++;
-	    }
-	    for(int i=0; i<t.getLen(curShape, orientation); i++){
-		for(int j=0; j<t.getWid(curShape, orientation); j++){
-		    if(t.getSquare(curShape,ori,i,j) == 1){
-			g.drawRect(x*40,(y-1)*40,40,40);
-		    }
-		    x++;
+	int y = ycor;
+	int x = xcor;
+	while(tryMoveDown(y)){
+	    y++;
+	}
+	for(int i=0; i<t.getLen(curShape, orientation); i++){
+	    for(int j=0; j<t.getWid(curShape, orientation); j++){
+		if(t.getSquare(curShape,ori,i,j) == 1){
+		    g.drawRect(x*40,(y-1)*40,40,40);
 		}
-		x=xcor;
-		y++;
+		x++;
 	    }
+	    x=xcor;
+	    y++;
 	}
 
 	//If the shape isn't speeding up, it moves normally
@@ -161,7 +159,14 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	return true;
     }
 
+    private void instantDrop(){
+	while(tryMoveDown(ycor)){
+	    ycor++;
+	}
+    }
+
     //Every time an arrow key is released, call the respective function
+    //Every time space is pressed, call the speedUp function
     public void keyReleased(KeyEvent e){
 	if(e.getKeyCode() == KeyEvent.VK_UP){
 	    rotateR();
@@ -175,15 +180,16 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	if(e.getKeyCode() == KeyEvent.VK_LEFT){
 	    moveL();
 	}
-    }
-    public void keyTyped(KeyEvent e){
-    }
-
-    //Every time space is pressed, call the speedUp function
-    public void keyPressed(KeyEvent e){
 	if(e.getKeyCode() == KeyEvent.VK_SPACE){
 	    speedUp();
 	}
+	if(e.getKeyCode() == KeyEvent.VK_ENTER){
+	    instantDrop();
+	}
+    }
+    public void keyTyped(KeyEvent e){
+    }
+    public void keyPressed(KeyEvent e){
     }
 
     //First checks if the shape won't collide with any other pieces or exit the board after its rotation by checking the coordTable and the shape's current xcor and ycor
@@ -360,8 +366,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    if(canMove){
 		for(int i=0; i<5; i++){
 		    try{
-			if(i>0){
-			    Thread.sleep(50);
+			if(i>1){
+			    Thread.sleep(75);
 			}
 		    }catch(InterruptedException e){
 			Thread.currentThread().interrupt();
