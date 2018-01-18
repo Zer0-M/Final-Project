@@ -67,7 +67,7 @@ public class Tetris extends JFrame implements ActionListener{
 	sidebar.add(play);
 	sidebar.add(pause);
 	sidebar.add(predictor);
-
+	sidebar.add(held);
 	sidebar.add(score);
 
     }
@@ -100,8 +100,8 @@ public class Tetris extends JFrame implements ActionListener{
 	    matrix.setVisible(true);
 	    matrix.requestFocus();
 	    sidebar.add(score);
-	    sidebar.add(held);
 	    sidebar.add(predictor);
+	    sidebar.add(held);
 	    sidebar.setVisible(true);
 	}
 	// The pause button will pause the game once pressed
@@ -124,6 +124,10 @@ public class Tetris extends JFrame implements ActionListener{
 
     public predict getNext(){
 	return predictor;
+    }
+
+    public hold getHold(){
+	return held;
     }
     public static void main(String[] args){
 	Tetris t=new Tetris();

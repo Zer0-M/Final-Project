@@ -7,6 +7,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     //The score JLabel is modified from this class by using the get method in parent class
     private JLabel score;
     private predict next;
+    private hold held;
     public int newScore;
     
     //Timer makes each piece move down at a fixed rate
@@ -32,6 +33,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     public Board(Tetris parent) {
 	score = parent.getScore();
 	next = parent.getNext();
+	held = parent.getHold();
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
 	newScore = 0;
@@ -165,6 +167,23 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	}
     }
 
+    private void holdPiece(){
+	if(held.getShape() == null){
+	    held.setShape(curShape);
+	    curShape = next.getShape();
+	    next.setShape(t.randGen());
+	    ycor = 0;
+	    xcor = 4;
+	    orientation = 0;
+	}else{
+	    curShape = held.getShape();
+	    ycor = 0;
+	    xcor = 4;
+	    orientation = 0;
+	    held.setNull();
+	}
+    }
+
     //Every time an arrow key is released, call the respective function
     //Every time space is pressed, call the speedUp function
     public void keyReleased(KeyEvent e){
@@ -183,13 +202,16 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	if(e.getKeyCode() == KeyEvent.VK_SPACE){
 	    speedUp();
 	}
-	if(e.getKeyCode() == KeyEvent.VK_ENTER){
-	    instantDrop();
+	if(e.getKeyCode() == KeyEvent.VK_SHIFT){
+	    holdPiece();
 	}
     }
     public void keyTyped(KeyEvent e){
     }
     public void keyPressed(KeyEvent e){
+	if(e.getKeyCode() == KeyEvent.VK_ENTER){
+	    instantDrop();
+	}
     }
 
     //First checks if the shape won't collide with any other pieces or exit the board after its rotation by checking the coordTable and the shape's current xcor and ycor
