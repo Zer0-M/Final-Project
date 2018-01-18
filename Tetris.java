@@ -14,6 +14,8 @@ public class Tetris extends JFrame implements ActionListener{
     private JButton restart;
     private Board  matrix;
     private JPanel sidebar;
+  private predict predictor;
+  private hold held;
     public Tetris(){
 	this.setTitle("Tetris");
 	this.setSize(800,1000);
@@ -23,6 +25,8 @@ public class Tetris extends JFrame implements ActionListener{
 	pause=new JButton("pause");
 	play=new JButton("play");
   restart=new JButton("restart");
+  predictor=new predict();
+  held=new hold();
 
   // The timer is used to check if the game is over indicating whether the gameover method should be invoked
 	timer=new Timer(10,this);
@@ -58,10 +62,14 @@ public class Tetris extends JFrame implements ActionListener{
 	pane.add(sidebar);
 	matrix.setVisible(false);
 	sidebar.setVisible(false);
+  sidebar.setBackground(Color.LIGHT_GRAY);
 	sidebar.add(restart);
 	sidebar.add(play);
 	sidebar.add(pause);
+  sidebar.add(predictor);
+
 	sidebar.add(score);
+
     }
   //The gameover method makes the matrix and sidebar invisible and adds the gameover label, score label and the start button to the pane.
     public void gameOver(){
@@ -90,6 +98,7 @@ public class Tetris extends JFrame implements ActionListener{
 	    matrix.setVisible(true);
 	    matrix.requestFocus();
 	    sidebar.add(score);
+         sidebar.add(held);
 	    sidebar.setVisible(true);
 	}
   // The pause button will pause the game once pressed
