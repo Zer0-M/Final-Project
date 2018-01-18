@@ -1,18 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.Graphics;
-import java.awt.Color;
-import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Arrays;
 public class Board extends JPanel implements ActionListener, KeyListener{
     
     //The score JLabel is modified from this class by using the get method in parent class
     private JLabel score;
+    private predict next;
     public int newScore;
     
     //Timer makes each piece move down at a fixed rate
@@ -37,6 +31,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     //Creates the actual game
     public Board(Tetris parent) {
 	score = parent.getScore();
+	next = parent.getNext();
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
 	newScore = 0;
@@ -62,7 +57,12 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	int col = ycor*40+displacement;
 	int ori = orientation;
 	if(!moving){
-	    curShape = t.randGen();
+	    if(curShape == null){
+		curShape = t.randGen();
+		next.setShape(t.randGen());
+	    }
+	    curShape = next.getShape();
+	    next.setShape(t.randGen());
 	    moving = true;
 	}
 	
