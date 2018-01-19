@@ -367,7 +367,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     //Get rid of the shapes in the full row and call moveDown to move down all the shapes in the row above
     public void clearRow(ArrayList<Integer> rows){
 	int lines = rows.size();
-	System.out.println(rows);
 	int row = 0;
 	for(int y=0; y<lines; y++){
 	    row = (int)(rows.get(y));
@@ -392,12 +391,17 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	clearedLines += lines;
 	//Add 10 points to the score for every row deleted
 	newScore += multiplier * level;
+	if(lines == 2 || lines == 3){
+	    newScore -= 40*level;
+	    clearedLines -= 1;
+	}
+	if(lines == 4){
+	    newScore -= 100*level;
+	    clearedLines -= 2;
+	}
 	if(clearedLines >= linesToClear){
 	    level++;
 	    linesToClear += 5;
-	}
-	if(lines >= 2){
-	    newScore -= 40;
 	}
 	score.setText("Score:"+String.valueOf(newScore));
 	curLevel.setText("Level:"+String.valueOf(level));
