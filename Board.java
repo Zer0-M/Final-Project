@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 public class Board extends JPanel implements ActionListener, KeyListener{
     
     //The score JLabel is modified from this class by using the get method in parent class
@@ -336,6 +336,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
     //Start from the end of the board and if there is a full line of shapes, call clearRow to clear that row and keep checking the rows above
     private void isFilled(){
+	ArrayList<Integer> rows = new ArrayList<Integer> ();
 	for(int y=19; y>=0; y--){
 	    boolean filled = true;
 	    for(int x=0; x<10; x++){
@@ -344,22 +345,50 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 		}
 	    }
 	    if(filled){
-		clearRow(y);
+		rows.add((Integer)(y));
 		filled = false;
 	    }
+	}
+	if(rows.size()>0){
+	    clearRow(rows);
 	}
     }
 
     //Get rid of the shapes in the full row and call moveDown to move down all the shapes in the row above
-    public void clearRow(int y){
-	for(int x=0; x<10; x++){
-	    coordTable[y][x] = 0;
+    public void clearRow(ArrayList<Integer> rows){
+	int lines = rows.size();
+	int first = (int)(rows.get(0));
+	int row = 0;
+	for(int y=0; y<rows.size(); y++){
+	    row = (int)(rows.get(y));
+	    for(int x=0; x<10; x++){
+		coordTable[row][x] = 0;
+	    }
+	    moveDown(row);
 	}
-
+	int n = 20-first;
+	int multiplier = 0;
+	if(lines == 1){
+	    multiplier = 40;
+	}
+	if(lines == 2){
+	    multiplier = 100;
+	}
+	if(lines == 3){
+	    multiplier = 300;
+	}
+	if(lines == 4){
+	    multiplier = 1200;
+	}
 	//Add 10 points to the score for every row deleted
-	newScore += 10;
+	newScore += n*multiplier;
+	if(lines == 2 || lines == 3){
+	    newScore -= 40;
+	}
+	if(lines == 4){
+	    newScore -= 100;
+	}
 	score.setText("Score:"+String.valueOf(newScore));
-	moveDown(y);
     }
 
     //Shift all of the values on the coordTable above the deleted row down one row
@@ -415,6 +444,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	orientation = 0;
 	displacement = 0;
 	moving = false;
+	next.setShape(null);
+	held.setShape(null);
+	curShape = null;
     }
 
     //Check if the player lost and if they did then end the game
