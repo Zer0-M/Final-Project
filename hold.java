@@ -15,9 +15,6 @@ public class hold  extends JPanel implements ActionListener{
     public void setShape(int[][][] shape){
 	this.shape = shape;
     }
-    public void setNull(){
-	shape = null;
-    }
     public int[][][] getShape(){
 	return shape;
     }

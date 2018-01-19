@@ -186,11 +186,12 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	    xcor = 4;
 	    orientation = 0;
 	}else{
+	    int[][][] temp = curShape;
 	    curShape = held.getShape();
+	    held.setShape(temp);
 	    ycor = 0;
 	    xcor = 4;
 	    orientation = 0;
-	    held.setNull();
 	}
     }
 
