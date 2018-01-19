@@ -6,6 +6,7 @@ import java.awt.Color;
 public class Tetris extends JFrame implements ActionListener{
     private Container pane;
     private JLabel  score;
+    private JLabel level;
     private Timer timer;
     private JLabel  gameover;
     private JButton pause;
@@ -50,11 +51,13 @@ public class Tetris extends JFrame implements ActionListener{
 
 	score=new JLabel("Score:0");
 	gameover=new JLabel("GAMEOVER");
+	level=new JLabel("Level:1");
 	gameover.setFont(new Font("Serif",Font.PLAIN,100));
 	gameover.setForeground(Color.RED);
 	sidebar=new JPanel();
 
 	score.setFont(new Font("Serif",Font.PLAIN,50));
+	level.setFont(new Font("Serif",Font.PLAIN,50));
 	matrix=new Board(this);
 	pane.add(start, new GridBagConstraints());
 
@@ -69,6 +72,7 @@ public class Tetris extends JFrame implements ActionListener{
 	sidebar.add(predictor);
 	sidebar.add(held);
 	sidebar.add(score);
+	sidebar.add(level);
 
     }
     //The gameover method makes the matrix and sidebar invisible and adds the gameover label, score label and the start button to the pane.
@@ -80,6 +84,7 @@ public class Tetris extends JFrame implements ActionListener{
 	pane.setLayout(new FlowLayout());
 	pane.add(gameover);
 	pane.add(score);
+	pane.add(level);
 	pane.add(start);
     }
     public void actionPerformed(ActionEvent e){
@@ -102,6 +107,7 @@ public class Tetris extends JFrame implements ActionListener{
 	    sidebar.add(score);
 	    sidebar.add(predictor);
 	    sidebar.add(held);
+	    sidebar.add(level);
 	    sidebar.setVisible(true);
 	}
 	// The pause button will pause the game once pressed
@@ -129,6 +135,11 @@ public class Tetris extends JFrame implements ActionListener{
     public hold getHold(){
 	return held;
     }
+
+    public JLabel getLevel(){
+	return level;
+    }
+    
     public static void main(String[] args){
 	Tetris t=new Tetris();
 	t.setVisible(true);

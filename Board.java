@@ -6,12 +6,17 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     
     //The score JLabel is modified from this class by using the get method in parent class
     private JLabel score;
+    private JLabel curLevel;
     private predict next;
     private hold held;
     public int newScore;
     
     //Timer makes each piece move down at a fixed rate
     private Timer timer;
+    private int level;
+    private int time;
+    private int clearedLines;
+    private int linesToClear;
 
     //Keeps track of where each shape is after it reaches the bottom and finishes moving
     private int[][] coordTable;
@@ -34,13 +39,18 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	score = parent.getScore();
 	next = parent.getNext();
 	held = parent.getHold();
+	curLevel = parent.getLevel();
 	t = new Tetrimino();
 	setBackground(Color.WHITE);
 	newScore = 0;
 	coordTable = new int[20][10];
 
 	//Calls actionPerformed
-	timer=new Timer(300, this);
+	time = 300;
+	level = 1;
+	clearedLines=0;
+	linesToClear=5;
+	timer=new Timer(time, this);
 	timer.start();
 	xcor = 4;
 	ycor = 0;
@@ -357,16 +367,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     //Get rid of the shapes in the full row and call moveDown to move down all the shapes in the row above
     public void clearRow(ArrayList<Integer> rows){
 	int lines = rows.size();
-	int first = (int)(rows.get(0));
+	System.out.println(rows);
 	int row = 0;
-	for(int y=0; y<rows.size(); y++){
+	for(int y=0; y<lines; y++){
 	    row = (int)(rows.get(y));
 	    for(int x=0; x<10; x++){
 		coordTable[row][x] = 0;
 	    }
 	    moveDown(row);
 	}
-	int n = 20-first;
 	int multiplier = 0;
 	if(lines == 1){
 	    multiplier = 40;
@@ -380,15 +389,18 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	if(lines == 4){
 	    multiplier = 1200;
 	}
+	clearedLines += lines;
 	//Add 10 points to the score for every row deleted
-	newScore += n*multiplier;
-	if(lines == 2 || lines == 3){
+	newScore += multiplier * level;
+	if(clearedLines >= linesToClear){
+	    level++;
+	    linesToClear += 5;
+	}
+	if(lines >= 2){
 	    newScore -= 40;
 	}
-	if(lines == 4){
-	    newScore -= 100;
-	}
 	score.setText("Score:"+String.valueOf(newScore));
+	curLevel.setText("Level:"+String.valueOf(level));
     }
 
     //Shift all of the values on the coordTable above the deleted row down one row
@@ -443,6 +455,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	ycor = 0;
 	orientation = 0;
 	displacement = 0;
+	level = 1;
+	linesToClear = 5;
+	clearedLines = 0;
 	moving = false;
 	next.setShape(null);
 	held.setShape(null);
