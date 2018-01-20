@@ -38,7 +38,7 @@ public class hold  extends JPanel implements ActionListener{
 	    }
 	}
     }
-    public void actionPerformed(ActionEvent e){
+  public void actionPerformed(ActionEvent e){
 	repaint();
     }
 }

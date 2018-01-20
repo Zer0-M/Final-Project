@@ -7,6 +7,8 @@ public class Tetris extends JFrame implements ActionListener{
     private Container pane;
     private JLabel  score;
     private JLabel level;
+  private JLabel heldPiece;
+  private JLabel nextPiece;
     private Timer timer;
     private JLabel  gameover;
     private JButton pause;
@@ -52,12 +54,16 @@ public class Tetris extends JFrame implements ActionListener{
 	score=new JLabel("Score:0");
 	gameover=new JLabel("GAMEOVER");
 	level=new JLabel("Level:1");
+  heldPiece=new JLabel("Hold Piece");
+  nextPiece=new JLabel("Next Piece");
 	gameover.setFont(new Font("Serif",Font.PLAIN,100));
 	gameover.setForeground(Color.RED);
 	sidebar=new JPanel();
 
 	score.setFont(new Font("Serif",Font.PLAIN,50));
-	level.setFont(new Font("Serif",Font.PLAIN,50));
+	level.setFont(new Font("Serif",Font.PLAIN,55));
+  heldPiece.setFont(new Font("Serif",Font.PLAIN,30));
+	nextPiece.setFont(new Font("Serif",Font.PLAIN,30));
 	matrix=new Board(this);
 	pane.add(start, new GridBagConstraints());
 
@@ -66,13 +72,6 @@ public class Tetris extends JFrame implements ActionListener{
 	matrix.setVisible(false);
 	sidebar.setVisible(false);
 	sidebar.setBackground(Color.LIGHT_GRAY);
-	sidebar.add(restart);
-	sidebar.add(play);
-	sidebar.add(pause);
-	sidebar.add(predictor);
-	sidebar.add(held);
-	sidebar.add(score);
-	sidebar.add(level);
 
     }
     //The gameover method makes the matrix and sidebar invisible and adds the gameover label, score label and the start button to the pane.
@@ -104,9 +103,14 @@ public class Tetris extends JFrame implements ActionListener{
 	    pane.remove(score);
 	    matrix.setVisible(true);
 	    matrix.requestFocus();
-	    sidebar.add(score);
-	    sidebar.add(predictor);
+      sidebar.add(restart);
+      sidebar.add(play);
+      sidebar.add(pause);
+      sidebar.add(nextPiece);
+      sidebar.add(predictor);
+      sidebar.add(heldPiece);
 	    sidebar.add(held);
+	    sidebar.add(score);
 	    sidebar.add(level);
 	    sidebar.setVisible(true);
 	}
