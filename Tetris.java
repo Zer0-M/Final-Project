@@ -12,6 +12,7 @@ public class Tetris extends JFrame implements ActionListener{
   private startScreen screen;
     private Timer timer;
     private JLabel  gameover;
+  private gameOverScreen over;
     private JButton pause;
     private JButton play;
     private JButton start;
@@ -32,6 +33,7 @@ public class Tetris extends JFrame implements ActionListener{
 	predictor=new predict();
 	held=new hold();
   screen=new startScreen("image.png");
+  over=new gameOverScreen();
 	// The timer is used to check if the game is over indicating whether the gameover method should be invoked
 	timer=new Timer(10,this);
 	timer.setActionCommand("gameover?");
@@ -52,7 +54,7 @@ public class Tetris extends JFrame implements ActionListener{
 	start.setPreferredSize(new Dimension(200, 100));
 	pane.setLayout(new GridBagLayout());
 
-	score=new JLabel("Score:0");
+	score=new JLabel("Score:0 ");
 	gameover=new JLabel("GAMEOVER");
 	level=new JLabel("Level:1");
   heldPiece=new JLabel("Hold Piece");
@@ -91,23 +93,26 @@ public class Tetris extends JFrame implements ActionListener{
 	sidebar.setVisible(false);
 	predictor.setVisible(false);
 	held.setVisible(false);
-	pane.setLayout(new FlowLayout());
-	pane.add(gameover);
-	pane.add(score);
-	pane.add(level);
-	pane.add(start);
+  pane.setLayout(new GridBagLayout());
+  pane.add(over);
+	over.add(gameover);
+	over.add(score);
+	over.add(level);
+	over.add(start);
     }
     public void actionPerformed(ActionEvent e){
 	String s=e.getActionCommand();
 	if(s.equals("gameover?")){
+    try{
 	    if(matrix.end()){
-		gameOver();
+        gameOver();
 
 	    }
+    }catch(NullPointerException E){}
 	}
 	// The start button once pressed removes the start button and if the player is starting again the gameover label, and makes the matrix and sidebar visible, while also changing the panes layout.
 	if(s.equals("START")){
-	    pane.remove(gameover);
+	    pane.remove(over);
 	    matrix.restart();
 	    pane.setLayout(new GridLayout());
       pane.remove(start);
