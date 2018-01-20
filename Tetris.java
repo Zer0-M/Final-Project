@@ -71,6 +71,15 @@ public class Tetris extends JFrame implements ActionListener{
 	pane.add(sidebar);
 	matrix.setVisible(false);
 	sidebar.setVisible(false);
+  sidebar.add(restart);
+  sidebar.add(play);
+  sidebar.add(pause);
+  sidebar.add(nextPiece);
+  sidebar.add(predictor);
+  sidebar.add(heldPiece);
+  sidebar.add(held);
+  sidebar.add(score);
+  sidebar.add(level);
 	sidebar.setBackground(Color.LIGHT_GRAY);
 
     }
@@ -101,17 +110,17 @@ public class Tetris extends JFrame implements ActionListener{
 	    pane.setLayout(new GridLayout());
 	    pane.remove(start);
 	    pane.remove(score);
-	    matrix.setVisible(true);
+      pane.remove(level);
+        matrix.setVisible(true);
 	    matrix.requestFocus();
-      sidebar.add(restart);
-      sidebar.add(play);
-      sidebar.add(pause);
       sidebar.add(nextPiece);
       sidebar.add(predictor);
       sidebar.add(heldPiece);
 	    sidebar.add(held);
 	    sidebar.add(score);
 	    sidebar.add(level);
+      predictor.setVisible(true);
+      held.setVisible(true);
 	    sidebar.setVisible(true);
 	}
 	// The pause button will pause the game once pressed
