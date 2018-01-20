@@ -20,8 +20,6 @@ public class startScreen  extends JPanel{
     super.paintComponent( g );
     g.drawImage(backgroundImg, 0, 0, null);
     setOpaque(false);
-
-    setOpaque(true);
   }
 
 }
