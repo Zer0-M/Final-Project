@@ -9,6 +9,7 @@ public class Tetris extends JFrame implements ActionListener{
     private JLabel level;
   private JLabel heldPiece;
   private JLabel nextPiece;
+  private startScreen screen;
     private Timer timer;
     private JLabel  gameover;
     private JButton pause;
@@ -30,7 +31,7 @@ public class Tetris extends JFrame implements ActionListener{
 	restart=new JButton("restart");
 	predictor=new predict();
 	held=new hold();
-
+  screen=new startScreen("image.png");
 	// The timer is used to check if the game is over indicating whether the gameover method should be invoked
 	timer=new Timer(10,this);
 	timer.setActionCommand("gameover?");
@@ -65,7 +66,8 @@ public class Tetris extends JFrame implements ActionListener{
   heldPiece.setFont(new Font("Serif",Font.PLAIN,30));
 	nextPiece.setFont(new Font("Serif",Font.PLAIN,30));
 	matrix=new Board(this);
-	pane.add(start, new GridBagConstraints());
+  pane.add(screen, new GridBagConstraints());
+  screen.add(start, new GridBagConstraints());
 
 	pane.add(matrix);
 	pane.add(sidebar);
@@ -108,7 +110,8 @@ public class Tetris extends JFrame implements ActionListener{
 	    pane.remove(gameover);
 	    matrix.restart();
 	    pane.setLayout(new GridLayout());
-	    pane.remove(start);
+      pane.remove(start);
+	    pane.remove(screen);
 	    pane.remove(score);
       pane.remove(level);
         matrix.setVisible(true);
