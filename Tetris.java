@@ -68,8 +68,13 @@ public class Tetris extends JFrame implements ActionListener{
   heldPiece.setFont(new Font("Serif",Font.PLAIN,30));
 	nextPiece.setFont(new Font("Serif",Font.PLAIN,30));
 	matrix=new Board(this);
-  pane.add(screen, new GridBagConstraints());
-  screen.add(start, new GridBagConstraints());
+  pane.add(screen);
+  GridBagConstraints gbc=new GridBagConstraints();
+  gbc.gridy=1;
+  gbc.weighty=1;
+
+  gbc.anchor=GridBagConstraints.CENTER;
+  screen.add(start, gbc);
 
 	pane.add(matrix);
 	pane.add(sidebar);
