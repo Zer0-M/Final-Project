@@ -454,6 +454,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 	revalidate();
 	coordTable = new int[20][10];
 	score.setText("Score:0");
+	curLevel.setText("Level:1");
 	newScore = 0;
 	timer.start();
 	xcor = 4;
