@@ -52,7 +52,7 @@ public class Tetris extends JFrame implements ActionListener{
 
 	pane = this.getContentPane();
 	start.setPreferredSize(new Dimension(200, 100));
-	pane.setLayout(new GridBagLayout());
+	pane.setLayout(new BorderLayout());
 
 	score=new JLabel("Score:0 ");
 	gameover=new JLabel("GAMEOVER");
@@ -68,7 +68,7 @@ public class Tetris extends JFrame implements ActionListener{
   heldPiece.setFont(new Font("Serif",Font.PLAIN,30));
 	nextPiece.setFont(new Font("Serif",Font.PLAIN,30));
 	matrix=new Board(this);
-  pane.add(screen);
+  pane.add(screen, BorderLayout.PAGE_START);
   GridBagConstraints gbc=new GridBagConstraints();
   gbc.gridy=1;
   gbc.weighty=1;
@@ -98,8 +98,8 @@ public class Tetris extends JFrame implements ActionListener{
 	sidebar.setVisible(false);
 	predictor.setVisible(false);
 	held.setVisible(false);
-  pane.setLayout(new GridBagLayout());
-  pane.add(over);
+  pane.setLayout(new BorderLayout());
+  pane.add(over, BorderLayout.PAGE_START);
 	over.add(gameover);
 	over.add(score);
 	over.add(level);
