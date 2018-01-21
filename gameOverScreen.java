@@ -10,7 +10,6 @@ public class gameOverScreen  extends JPanel{
     try {
       backgroundImg = ImageIO.read(new File("gameover.png"));
     } catch (IOException e) {}
-    setBackground(new Color(64, 51, 43, 123));
     setPreferredSize(new Dimension(800,1000));
     setLayout(new FlowLayout());
   }
